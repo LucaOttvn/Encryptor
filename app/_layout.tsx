@@ -45,11 +45,12 @@ function MainWrapper() {
             backgroundColor: theme.background,
           },
           headerTitleStyle: {
-            fontFamily: "SpaceMono_700Bold",
+            fontFamily: "Montserrat_700Bold",
             color: theme.foreground,
           },
+          headerTintColor: theme.foreground, 
           headerBackTitleStyle: {
-            fontFamily: "SpaceMono_400Regular",
+            fontFamily: "Montserrat_400Regular",
           },
         }}
       >
@@ -58,13 +59,7 @@ function MainWrapper() {
           options={{
             title: "Home",
           }}
-        />
-        <Stack.Screen
-          name="chat"
-          options={{
-            title: "Chat",
-          }}
-        />
+          />
       </Stack>
     </>
   );

@@ -50,6 +50,7 @@ export default function MessageInput(props: MessageInputProps) {
       <Animated.View style={{...styles.input, flex: widthAnim}}>
         <TextInput onChangeText={props.handleInput} value={props.message} placeholder="Message" placeholderTextColor="grey" onFocus={shrink} onBlur={expand} hitSlop={10} style={{
           paddingVertical: 16,
+          color: theme.foreground
         }}/>
       </Animated.View>
 
@@ -75,7 +76,6 @@ function createStyles(theme: ColorPalette) {
     input: {
       width: "100%",
       backgroundColor: theme.background,
-      color: theme.foreground,
       borderRadius: 30,
       paddingHorizontal: 20,
     },

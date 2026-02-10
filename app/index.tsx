@@ -1,5 +1,5 @@
 import {ThemedText} from "@/components/themed-text";
-import { typography } from "@/constants/theme";
+import {typography} from "@/constants/theme";
 import {ColorPalette, useTheme} from "@/context/ThemeContext";
 import {Chat, ChatTypes} from "@/models/models";
 import {Link} from "expo-router";
@@ -40,13 +40,22 @@ export default function Home() {
         style={{
           height: "100%",
         }}
-        contentContainerStyle={{
-        }}
+        contentContainerStyle={{}}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => {
           return (
-            <Link href="/chat" asChild>
+            <Link
+              href={{
+                pathname: '/chat/[id]',
+                params: {
+                  id: String(item.id),
+                  name: item.name,
+
+                },
+              }}
+              asChild
+            >
               <Pressable>
                 <View style={styles.chat}>
                   <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
