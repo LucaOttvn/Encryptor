@@ -48,7 +48,9 @@ export default function MessageInput(props: MessageInputProps) {
   return (
     <View style={styles.inputBar}>
       <Animated.View style={{...styles.input, flex: widthAnim}}>
-        <TextInput onChangeText={props.handleInput} value={props.message} placeholder="Message" placeholderTextColor="grey" onFocus={shrink} onBlur={expand} />
+        <TextInput onChangeText={props.handleInput} value={props.message} placeholder="Message" placeholderTextColor="grey" onFocus={shrink} onBlur={expand} hitSlop={10} style={{
+          paddingVertical: 16,
+        }}/>
       </Animated.View>
 
       <Pressable onPress={send} style={styles.sendBtn} hitSlop={10}>
@@ -76,7 +78,6 @@ function createStyles(theme: ColorPalette) {
       color: theme.foreground,
       borderRadius: 30,
       paddingHorizontal: 20,
-      paddingVertical: 16,
     },
     sendBtn: {
       paddingHorizontal: 16,
