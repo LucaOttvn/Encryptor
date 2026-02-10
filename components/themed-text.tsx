@@ -11,7 +11,7 @@ export const ThemedText = ({style, ...props}: TextProps) => {
       style={[
         {
           color: theme.foreground,
-          fontFamily: "SpaceMono_400Regular",
+          fontFamily: "Montserrat_400Regular",
           fontSize: 16,
         },
         style,

@@ -2,7 +2,7 @@ import { Colors } from "@/constants/theme";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Animated, useColorScheme } from "react-native";
 
-type ColorPalette = typeof Colors.light | typeof Colors.dark;
+export type ColorPalette = typeof Colors.light | typeof Colors.dark;
 
 interface ThemeContextType {
   theme: ColorPalette;

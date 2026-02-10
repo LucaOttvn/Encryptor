@@ -1,4 +1,6 @@
 import {ThemedText} from "@/components/themed-text";
+import { typography } from "@/constants/theme";
+import {ColorPalette, useTheme} from "@/context/ThemeContext";
 import {Chat, ChatTypes} from "@/models/models";
 import {Link} from "expo-router";
 import {FlatList, View, StyleSheet, Pressable} from "react-native";
@@ -28,18 +30,17 @@ const chats: Chat[] = [
 ];
 
 export default function Home() {
-  const styles = createStyles();
+  const {theme} = useTheme();
+  const styles = createStyles(theme);
 
   return (
-    <SafeAreaView edges={["left", "right"]}>
+    <SafeAreaView>
       <FlatList
         data={chats}
         style={{
           height: "100%",
         }}
         contentContainerStyle={{
-          rowGap: 12,
-          paddingTop: 10
         }}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
@@ -48,7 +49,8 @@ export default function Home() {
             <Link href="/chat" asChild>
               <Pressable>
                 <View style={styles.chat}>
-                  <ThemedText>{item.name}</ThemedText>
+                  <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
+                  <ThemedText>This is the last message</ThemedText>
                 </View>
               </Pressable>
             </Link>
@@ -59,10 +61,12 @@ export default function Home() {
   );
 }
 
-function createStyles() {
+function createStyles(theme: ColorPalette) {
   return StyleSheet.create({
     chat: {
-      backgroundColor: "blue",
+      backgroundColor: "",
+      borderColor: theme.foreground,
+      borderBottomWidth: 1,
       paddingHorizontal: 20,
       paddingVertical: 20,
     },

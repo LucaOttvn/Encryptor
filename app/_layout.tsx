@@ -1,13 +1,11 @@
-import {ThemedText} from "@/components/themed-text";
 import {ThemeProvider, useTheme} from "@/context/ThemeContext";
 import {SpaceMono_400Regular, SpaceMono_700Bold, useFonts} from "@expo-google-fonts/space-mono";
+import {Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
 import {Stack} from "expo-router";
 
 import {StatusBar} from "expo-status-bar";
-import {View, StyleSheet} from "react-native";
 
 import "react-native-reanimated";
-import {SafeAreaView} from "react-native-safe-area-context";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -17,6 +15,8 @@ export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
     SpaceMono_400Regular,
     SpaceMono_700Bold,
+    Montserrat_400Regular,
+    Montserrat_700Bold,
   });
 
   // Wait for the font to be loaded
@@ -37,7 +37,7 @@ function MainWrapper() {
       <StatusBar style={isDark ? "light" : "dark"} />
       <Stack
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           contentStyle: {
             backgroundColor: theme.background,
           },
