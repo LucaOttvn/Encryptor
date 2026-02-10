@@ -6,6 +6,7 @@ import {Animated, Easing, View, StyleSheet, TextInput, Pressable} from "react-na
 type MessageInputProps = {
   message: string;
   handleInput: (value: string) => any;
+  scrollToBottom: (animated?: boolean) => void;
 };
 
 /**
@@ -20,6 +21,7 @@ export default function MessageInput(props: MessageInputProps) {
   const widthAnim = useRef(new Animated.Value(1)).current;
 
   const shrink = () => {
+    props.scrollToBottom(true);
     Animated.timing(widthAnim, {
       toValue: 0.85,
       duration: 180,
@@ -48,10 +50,19 @@ export default function MessageInput(props: MessageInputProps) {
   return (
     <View style={styles.inputBar}>
       <Animated.View style={{...styles.input, flex: widthAnim}}>
-        <TextInput onChangeText={props.handleInput} value={props.message} placeholder="Message" placeholderTextColor="grey" onFocus={shrink} onBlur={expand} hitSlop={10} style={{
-          paddingVertical: 16,
-          color: theme.foreground
-        }}/>
+        <TextInput
+          onChangeText={props.handleInput}
+          value={props.message}
+          placeholder="Message"
+          placeholderTextColor="grey"
+          onFocus={shrink}
+          onBlur={expand}
+          hitSlop={10}
+          style={{
+            paddingVertical: 16,
+            color: theme.foreground,
+          }}
+        />
       </Animated.View>
 
       <Pressable onPress={send} style={styles.sendBtn} hitSlop={10}>

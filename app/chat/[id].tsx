@@ -61,7 +61,7 @@ export default function Chat() {
             }}
           />
 
-          <MessageInput message={message} handleInput={handleInput} />
+          <MessageInput message={message} handleInput={handleInput} scrollToBottom={scrollToBottom}/>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
