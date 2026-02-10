@@ -19,7 +19,7 @@ export default function Chat() {
 
   const keyboardVerticalOffset =
     Platform.OS === "ios"
-      ? headerHeight // usually enough; if you still see a gap, try headerHeight + insets.top
+      ? headerHeight + 10
       : 0;
 
   const scrollToBottom = useCallback((animated = false) => {
