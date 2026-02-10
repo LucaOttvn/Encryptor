@@ -35,7 +35,7 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
       useNativeDriver: true,
     }).start(() => {
       // Switch theme at lowest opacity
-      setIsDark(!isDark);
+      setIsDark(prev => !prev);
       // Fade back in
       Animated.timing(fadeAnim, {
         toValue: 1,

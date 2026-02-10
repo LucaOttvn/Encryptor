@@ -2,6 +2,7 @@ import {ColorPalette, useTheme} from "@/context/ThemeContext";
 import {Ionicons} from "@expo/vector-icons";
 import {useRef} from "react";
 import {Animated, Easing, View, StyleSheet, TextInput, Pressable} from "react-native";
+import * as Haptics from "expo-haptics";
 
 type MessageInputProps = {
   message: string;
@@ -22,6 +23,8 @@ export default function MessageInput(props: MessageInputProps) {
 
   const shrink = () => {
     props.scrollToBottom(true);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+
     Animated.timing(widthAnim, {
       toValue: 0.85,
       duration: 180,

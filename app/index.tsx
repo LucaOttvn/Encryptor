@@ -5,6 +5,8 @@ import {Chat, ChatTypes} from "@/models/models";
 import {Link} from "expo-router";
 import {FlatList, View, StyleSheet, Pressable} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
+import * as Haptics from "expo-haptics";
+import {Ionicons} from "@expo/vector-icons";
 
 const chats: Chat[] = [
   {
@@ -35,6 +37,20 @@ export default function Home() {
 
   return (
     <SafeAreaView>
+      <View style={styles.topBar}>
+        {/* <Ionicons name="settings" color={theme.foreground} size={20} /> */}
+
+        <Link href="/settings" asChild>
+          <Pressable
+            onPressIn={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+            }}
+          >
+            <ThemedText>Settings</ThemedText>
+          </Pressable>
+        </Link>
+        <ThemedText>User name</ThemedText>
+      </View>
       <FlatList
         data={chats}
         style={{
@@ -47,16 +63,19 @@ export default function Home() {
           return (
             <Link
               href={{
-                pathname: '/chat/[id]',
+                pathname: "./chat/[id]",
                 params: {
                   id: String(item.id),
                   name: item.name,
-
                 },
               }}
               asChild
             >
-              <Pressable>
+              <Pressable
+                onPressIn={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                }}
+              >
                 <View style={styles.chat}>
                   <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
                   <ThemedText>This is the last message</ThemedText>
@@ -73,11 +92,19 @@ export default function Home() {
 function createStyles(theme: ColorPalette) {
   return StyleSheet.create({
     chat: {
-      backgroundColor: "",
       borderColor: theme.foreground,
       borderBottomWidth: 1,
       paddingHorizontal: 20,
       paddingVertical: 20,
+    },
+    topBar: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingTop: 10,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.foreground,
     },
   });
 }

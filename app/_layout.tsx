@@ -1,6 +1,6 @@
 import {ThemeProvider, useTheme} from "@/context/ThemeContext";
+import {Montserrat_400Regular, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
 import {SpaceMono_400Regular, SpaceMono_700Bold, useFonts} from "@expo-google-fonts/space-mono";
-import {Montserrat_400Regular, Montserrat_600SemiBold, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
 import {Stack} from "expo-router";
 
 import {StatusBar} from "expo-status-bar";
@@ -48,9 +48,9 @@ function MainWrapper() {
             fontFamily: "Montserrat_700Bold",
             color: theme.foreground,
           },
-          headerTintColor: theme.foreground, 
+          headerTintColor: theme.foreground,
           headerBackTitleStyle: {
-            fontFamily: "Montserrat_400Regular",
+            fontFamily: "SpaceMono_400Regular",
           },
         }}
       >
@@ -59,7 +59,14 @@ function MainWrapper() {
           options={{
             title: "Home",
           }}
-          />
+        />
+        <Stack.Screen
+          name="settings"
+          options={{
+            title: "Settings",
+            headerShown: true,
+          }}
+        />
       </Stack>
     </>
   );
