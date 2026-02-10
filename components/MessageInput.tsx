@@ -33,7 +33,7 @@ export default function MessageInput(props: MessageInputProps) {
     Animated.timing(widthAnim, {
       toValue: 1,
       duration: 180,
-      delay: 100,
+      delay: 300,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: false,
     }).start();
