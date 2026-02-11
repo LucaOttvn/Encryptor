@@ -1,6 +1,6 @@
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import { Message, messages } from "@/models/models";
+import { Message } from "@/src/models/models";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useCallback, useRef, useState } from "react";
@@ -17,10 +17,7 @@ export default function Chat() {
 
   const headerHeight = useHeaderHeight();
 
-  const keyboardVerticalOffset =
-    Platform.OS === "ios"
-      ? headerHeight + 10
-      : 0;
+  const keyboardVerticalOffset = Platform.OS === "ios" ? headerHeight + 10 : 0;
 
   const scrollToBottom = useCallback((animated = false) => {
     requestAnimationFrame(() => {
@@ -46,7 +43,7 @@ export default function Chat() {
           <FlatList
             ref={listRef}
             style={{flex: 1}}
-            data={messages}
+            data={[]}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => <MessageComponent message={item} />}
@@ -61,7 +58,7 @@ export default function Chat() {
             }}
           />
 
-          <MessageInput message={message} handleInput={handleInput} scrollToBottom={scrollToBottom}/>
+          <MessageInput message={message} handleInput={handleInput} scrollToBottom={scrollToBottom} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>

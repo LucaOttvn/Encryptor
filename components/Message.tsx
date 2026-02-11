@@ -1,7 +1,7 @@
-import {View, StyleSheet} from "react-native";
-import {ThemedText} from "./themed-text";
-import {ColorPalette, useTheme} from "@/context/ThemeContext";
-import {Message} from "@/models/models";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Message } from "@/src/models/models";
+import { StyleSheet, View } from "react-native";
+import { ThemedText } from "./themed-text";
 
 interface MessageComponentProps {
   message: Message;

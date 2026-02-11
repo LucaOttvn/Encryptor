@@ -1,7 +1,6 @@
-
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "@/src/context/ThemeContext";
 import React from "react";
-import {TextProps, Text} from "react-native";
+import { Text, TextProps } from "react-native";
 
 export const ThemedText = ({style, ...props}: TextProps) => {
   const {theme, isDark} = useTheme();

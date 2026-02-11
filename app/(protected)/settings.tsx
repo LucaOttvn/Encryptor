@@ -1,9 +1,9 @@
-import {ThemedText} from "@/components/themed-text";
-import {typography} from "@/constants/theme";
-import {useAuth} from "@/context/AuthContext";
-import {useTheme} from "@/context/ThemeContext";
-import {Pressable, Switch, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { ThemedText } from "@/components/themed-text";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { useTheme } from "@/src/context/ThemeContext";
+import { Pressable, Switch, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
   const {isDark, toggleTheme} = useTheme();
@@ -18,7 +18,7 @@ export default function Settings() {
       style={{
         flex: 1,
         paddingHorizontal: 20,
-        gap: 40
+        gap: 40,
       }}
     >
       <View
@@ -38,9 +38,7 @@ export default function Settings() {
         ></Switch>
       </View>
       <Pressable onPress={signOut}>
-        <ThemedText>
-          Sign Out
-        </ThemedText>
+        <ThemedText>Sign Out</ThemedText>
       </Pressable>
     </SafeAreaView>
   );

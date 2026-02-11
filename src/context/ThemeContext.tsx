@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/src/constants/theme";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { Animated, useColorScheme } from "react-native";
 
@@ -35,7 +35,7 @@ export const ThemeProvider = ({children}: ThemeProviderProps) => {
       useNativeDriver: true,
     }).start(() => {
       // Switch theme at lowest opacity
-      setIsDark(prev => !prev);
+      setIsDark((prev) => !prev);
       // Fade back in
       Animated.timing(fadeAnim, {
         toValue: 1,

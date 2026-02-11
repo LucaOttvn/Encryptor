@@ -1,11 +1,11 @@
-import {ThemeProvider, useTheme} from "@/context/ThemeContext";
-import {Montserrat_400Regular, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
-import {SpaceMono_400Regular, SpaceMono_700Bold, useFonts} from "@expo-google-fonts/space-mono";
-import {GoogleSignin} from "@react-native-google-signin/google-signin";
-import {Stack} from "expo-router";
-import {StatusBar} from "expo-status-bar";
-import {AuthProvider, useAuth} from "@/context/AuthContext";
-import {useEffect} from "react";
+import { AuthProvider, useAuth } from "@/src/context/AuthContext";
+import { ThemeProvider, useTheme } from "@/src/context/ThemeContext";
+import { Montserrat_400Regular, Montserrat_700Bold } from "@expo-google-fonts/montserrat";
+import { SpaceMono_400Regular, SpaceMono_700Bold, useFonts } from "@expo-google-fonts/space-mono";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
 
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({

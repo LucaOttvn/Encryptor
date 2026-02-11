@@ -2,9 +2,9 @@ import * as Haptics from "expo-haptics";
 import { Pressable, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/constants/theme";
-import { useAuth } from "@/context/AuthContext";
-import { useTheme } from "@/context/ThemeContext";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { useTheme } from "@/src/context/ThemeContext";
 
 export default function LoginScreen() {
   const {signInWithGoogle} = useAuth();

@@ -1,8 +1,8 @@
-import {ColorPalette, useTheme} from "@/context/ThemeContext";
-import {Ionicons} from "@expo/vector-icons";
-import {useRef} from "react";
-import {Animated, Easing, View, StyleSheet, TextInput, Pressable} from "react-native";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import { useRef } from "react";
+import { Animated, Easing, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 type MessageInputProps = {
   message: string;
@@ -28,7 +28,7 @@ export default function MessageInput(props: MessageInputProps) {
     Animated.timing(widthAnim, {
       toValue: 0.85,
       duration: 180,
-      delay: 100,
+      delay: 300,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: false,
     }).start();

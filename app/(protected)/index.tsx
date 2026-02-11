@@ -1,7 +1,8 @@
 import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/constants/theme";
-import { ColorPalette, useTheme } from "@/context/ThemeContext";
-import { Chat, ChatTypes } from "@/models/models";
+import { typography } from "@/src/constants/theme";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Chat, ChatTypes } from "@/src/models/models";
+
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
 import { FlatList, Pressable, StyleSheet, View } from "react-native";
