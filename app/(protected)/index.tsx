@@ -1,12 +1,11 @@
-import {ThemedText} from "@/components/themed-text";
-import {typography} from "@/constants/theme";
-import {ColorPalette, useTheme} from "@/context/ThemeContext";
-import {Chat, ChatTypes} from "@/models/models";
-import {Link} from "expo-router";
-import {FlatList, View, StyleSheet, Pressable} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { ThemedText } from "@/components/themed-text";
+import { typography } from "@/constants/theme";
+import { ColorPalette, useTheme } from "@/context/ThemeContext";
+import { Chat, ChatTypes } from "@/models/models";
 import * as Haptics from "expo-haptics";
-import {Ionicons} from "@expo/vector-icons";
+import { Link } from "expo-router";
+import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const chats: Chat[] = [
   {
