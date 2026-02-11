@@ -1,39 +1,27 @@
-import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/src/constants/theme";
-import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
-import { Chat, ChatTypes } from "@/src/models/models";
+import {ThemedText} from "@/components/themed-text";
+import {typography} from "@/src/constants/theme";
+import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
+import {Chat} from "@/src/models/models";
+import {getChats} from "@/src/services/get-chats";
 
 import * as Haptics from "expo-haptics";
-import { Link } from "expo-router";
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const chats: Chat[] = [
-  {
-    id: 1,
-    type: ChatTypes.single,
-    name: "Sect",
-  },
-  {
-    id: 2,
-    type: ChatTypes.single,
-    name: "Group 1",
-  },
-  {
-    id: 3,
-    type: ChatTypes.single,
-    name: "User 1",
-  },
-  {
-    id: 4,
-    type: ChatTypes.single,
-    name: "User 2",
-  },
-];
+import {Link} from "expo-router";
+import {useEffect, useState} from "react";
+import {FlatList, Pressable, StyleSheet, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Home() {
   const {theme} = useTheme();
+
+  const [chats, setChats] = useState<Chat[]>();
   const styles = createStyles(theme);
+
+  useEffect(() => {
+    (async () => {
+      const res: Chat[] = await getChats();
+      setChats(res)
+    })();
+  }, []);
 
   return (
     <SafeAreaView>

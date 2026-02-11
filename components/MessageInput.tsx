@@ -1,12 +1,15 @@
-import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
-import { Ionicons } from "@expo/vector-icons";
+import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
+import {Message} from "@/src/models/models";
+import {sendMessage} from "@/src/services/send-message";
+import {Ionicons} from "@expo/vector-icons";
+import {getAuth} from "@react-native-firebase/auth";
+import {serverTimestamp} from "@react-native-firebase/firestore";
 import * as Haptics from "expo-haptics";
-import { useRef } from "react";
-import { Animated, Easing, Pressable, StyleSheet, TextInput, View } from "react-native";
+import {useRef, useState} from "react";
+import {Animated, Easing, Pressable, StyleSheet, TextInput, View} from "react-native";
 
 type MessageInputProps = {
-  message: string;
-  handleInput: (value: string) => any;
+  chatId: string;
   scrollToBottom: (animated?: boolean) => void;
 };
 
@@ -16,6 +19,12 @@ type MessageInputProps = {
  */
 export default function MessageInput(props: MessageInputProps) {
   const {theme} = useTheme();
+
+  const [message, setMessage] = useState<string>("");
+
+  function handleInput(next: string) {
+    setMessage(next);
+  }
 
   const styles = createStyles(theme);
 
@@ -44,18 +53,31 @@ export default function MessageInput(props: MessageInputProps) {
     }).start();
   };
 
-  const send = () => {
-    // const text = message.trim();
-    // if (!text) return;
-    // setMessage("");
-  };
+  async function send() {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+
+    if (message === "") return;
+
+    handleInput("");
+
+    const uid = getAuth().currentUser?.uid;
+    if (!uid) throw new Error("Not logged in");
+
+    const newMessage: Message = {
+      text: message,
+      senderId: uid,
+      createdAt: serverTimestamp(),
+      chatId: props.chatId,
+    };
+    await sendMessage(newMessage);
+  }
 
   return (
     <View style={styles.inputBar}>
       <Animated.View style={{...styles.input, flex: widthAnim}}>
         <TextInput
-          onChangeText={props.handleInput}
-          value={props.message}
+          onChangeText={handleInput}
+          value={message}
           placeholder="Message"
           placeholderTextColor="grey"
           onFocus={shrink}

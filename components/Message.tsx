@@ -1,10 +1,12 @@
 import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
-import { Message } from "@/src/models/models";
+import { MessageDisplay } from "@/src/models/models";
+import { formatHHMM } from "@/src/utils";
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import { StyleSheet, View } from "react-native";
 import { ThemedText } from "./themed-text";
 
 interface MessageComponentProps {
-  message: Message;
+  message: MessageDisplay;
 }
 
 export default function MessageComponent(props: MessageComponentProps) {
@@ -23,14 +25,14 @@ export default function MessageComponent(props: MessageComponentProps) {
           alignSelf: "flex-start",
         }}
       >
-        User name |{" "}
+        {props.message.senderName}
         <ThemedText
           style={{
             color: "grey",
             fontSize: 12,
           }}
         >
-          {props.message.createdAt}
+          {formatHHMM(props.message.createdAt as FirebaseFirestoreTypes.Timestamp)}
         </ThemedText>
       </ThemedText>
       <ThemedText

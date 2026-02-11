@@ -1,18 +1,26 @@
 import type { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
+export type User = {
+  id: string
+  name: string,
+  userName: string
+}
 
 export type Chat = {
-  id: number,
-  type: ChatTypes
+  id?: number,
   name: string
 }
 
 export type Message = {
-  id: string;
-  group: string | undefined;
+  id?: string;
+  chatId: string;
   text: string;
   senderId: string;
-  createdAt: FirebaseFirestoreTypes.Timestamp; // store Firestore timestamp
+  createdAt: FirebaseFirestoreTypes.Timestamp | FirebaseFirestoreTypes.FieldValue;
+};
+
+export type MessageDisplay = Message & {
+  senderName: string;
 };
 
 export enum ChatTypes {

@@ -8,6 +8,7 @@ import {
   type FirebaseAuthTypes,
 } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { upsertUser } from "../services/upsert-user";
 
 type AuthCtx = {
   user: FirebaseAuthTypes.User | null;
@@ -41,6 +42,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const credential = GoogleAuthProvider.credential(idToken);
     await signInWithCredential(authInstance, credential);
+
+    await upsertUser()
   }
 
   async function signOutUser() {

@@ -1,18 +1,28 @@
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import { Message } from "@/src/models/models";
+import { MessageDisplay } from "@/src/models/models";
+import { getMessages } from "@/src/services/get-messages";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Chat() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();
 
-  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState<MessageDisplay[]>([]);
 
-  const listRef = useRef<FlatList<Message>>(null);
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      const res: MessageDisplay[] = await getMessages(id);
+      console.log(res);
+      setMessages(res);
+    })();
+  }, [id]);
+
+  const listRef = useRef<FlatList<MessageDisplay>>(null);
   const didAutoScroll = useRef(false);
 
   const headerHeight = useHeaderHeight();
@@ -24,10 +34,6 @@ export default function Chat() {
       listRef.current?.scrollToEnd({animated});
     });
   }, []);
-
-  function handleInput(next: string) {
-    setMessage(next);
-  }
 
   return (
     <>
@@ -43,8 +49,8 @@ export default function Chat() {
           <FlatList
             ref={listRef}
             style={{flex: 1}}
-            data={[]}
-            keyExtractor={(item) => item.id.toString()}
+            data={messages}
+            keyExtractor={(item) => item.id!.toString()}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => <MessageComponent message={item} />}
             onLayout={() => {
@@ -58,7 +64,7 @@ export default function Chat() {
             }}
           />
 
-          <MessageInput message={message} handleInput={handleInput} scrollToBottom={scrollToBottom} />
+          <MessageInput chatId={id} scrollToBottom={scrollToBottom} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
