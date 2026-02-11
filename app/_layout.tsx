@@ -1,11 +1,13 @@
-import { AuthProvider, useAuth } from "@/src/context/AuthContext";
-import { ThemeProvider, useTheme } from "@/src/context/ThemeContext";
-import { Montserrat_400Regular, Montserrat_700Bold } from "@expo-google-fonts/montserrat";
-import { SpaceMono_400Regular, SpaceMono_700Bold, useFonts } from "@expo-google-fonts/space-mono";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import {AuthProvider, useAuth} from "@/src/context/AuthContext";
+import {ThemeProvider, useTheme} from "@/src/context/ThemeContext";
+import {Montserrat_400Regular, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
+import {SpaceMono_400Regular, SpaceMono_700Bold, useFonts} from "@expo-google-fonts/space-mono";
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
+import {Stack} from "expo-router";
+import {StatusBar} from "expo-status-bar";
+import {useEffect} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
 
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
@@ -27,7 +29,11 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <MainWrapper />
+        <GestureHandlerRootView style={{flex: 1}}>
+          <BottomSheetModalProvider>
+            <MainWrapper />
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
       </ThemeProvider>
     </AuthProvider>
   );
@@ -75,24 +81,12 @@ function MainWrapper() {
             options={{
               headerShown: true,
               title: "Settings",
-              headerStyle: {
-                backgroundColor: theme.background,
-              },
-              headerTitleStyle: {
-                color: theme.foreground,
-              },
             }}
           />
           <Stack.Screen
             name="(protected)/chat/[id]"
             options={{
               headerShown: true,
-              headerStyle: {
-                backgroundColor: theme.background,
-              },
-              headerTitleStyle: {
-                color: theme.foreground,
-              },
             }}
           />
         </Stack.Protected>

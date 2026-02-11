@@ -19,15 +19,13 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const res: Chat[] = await getChats();
-      setChats(res)
+      setChats(res);
     })();
   }, []);
 
   return (
     <SafeAreaView>
       <View style={styles.topBar}>
-        {/* <Ionicons name="settings" color={theme.foreground} size={20} /> */}
-
         <Link href="/settings" asChild>
           <Pressable
             onPressIn={() => {
@@ -37,7 +35,13 @@ export default function Home() {
             <ThemedText>Settings</ThemedText>
           </Pressable>
         </Link>
-        <ThemedText>User name</ThemedText>
+        <Pressable
+          onPressIn={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+          }}
+        >
+          <ThemedText>New Chat</ThemedText>
+        </Pressable>
       </View>
       <FlatList
         data={chats}
@@ -45,7 +49,7 @@ export default function Home() {
           height: "100%",
         }}
         contentContainerStyle={{}}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id!.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => {
           return (
@@ -66,7 +70,7 @@ export default function Home() {
               >
                 <View style={styles.chat}>
                   <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
-                  <ThemedText>This is the last message</ThemedText>
+                  <ThemedText>4 Users</ThemedText>
                 </View>
               </Pressable>
             </Link>

@@ -16,9 +16,11 @@ const chunk = <T,>(arr: T[], size: number) =>
     );
 
 export async function getMessages(chatId: string): Promise<MessageDisplay[]> {
+    console.log('fetching messages')
+
     const db = getFirestore();
 
-    // 1) fetch messages
+    // Fetch messages
     const q = query(
         collection(db, "messages"),
         where("chatId", "==", chatId),
@@ -32,14 +34,13 @@ export async function getMessages(chatId: string): Promise<MessageDisplay[]> {
         .map((docSnap: any) => ({ id: docSnap.id, ...docSnap.data() }))
         .reverse();
 
-    // 2) fetch users for senderIds
+    // Fetch users for senderIds
     const senderIds = Array.from(
         new Set(messages.map((m: any) => m.senderId).filter(Boolean))
     );
 
     const usersById: Record<string, any> = {};
 
-    // Firestore `in` queries have a max number of ids, so chunk them. [web:720]
     for (const ids of chunk(senderIds, 10)) {
         const usersSnap = await getDocs(
             query(collection(db, "users"), where(documentId(), "in", ids))
@@ -50,7 +51,6 @@ export async function getMessages(chatId: string): Promise<MessageDisplay[]> {
         });
     }
 
-    // 3) join
     return messages.map((m: any) => ({
         ...m,
         senderName: usersById[m.senderId]?.name ?? "Unknown",

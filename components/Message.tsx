@@ -25,7 +25,7 @@ export default function MessageComponent(props: MessageComponentProps) {
           alignSelf: "flex-start",
         }}
       >
-        {props.message.senderName}
+        {props.message.senderName}{" - "}
         <ThemedText
           style={{
             color: "grey",

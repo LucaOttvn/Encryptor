@@ -1,7 +1,7 @@
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
 import { MessageDisplay } from "@/src/models/models";
-import { getMessages } from "@/src/services/get-messages";
+import { subscribeToMessages } from "@/src/services/subscribe-to-messages";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -12,21 +12,23 @@ export default function Chat() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();
 
   const [messages, setMessages] = useState<MessageDisplay[]>([]);
+  const didAutoScroll = useRef(false);
 
   useEffect(() => {
+    didAutoScroll.current = false
     if (!id) return;
-    (async () => {
-      const res: MessageDisplay[] = await getMessages(id);
-      console.log(res);
-      setMessages(res);
-    })();
+
+    const unsubscribe = subscribeToMessages(id, (msgs) => {
+      setMessages(msgs); // msgs should already be MessageDisplay[]
+    });
+
+    return unsubscribe;
   }, [id]);
 
   const listRef = useRef<FlatList<MessageDisplay>>(null);
-  const didAutoScroll = useRef(false);
-
+  
   const headerHeight = useHeaderHeight();
-
+  
   const keyboardVerticalOffset = Platform.OS === "ios" ? headerHeight + 10 : 0;
 
   const scrollToBottom = useCallback((animated = false) => {
