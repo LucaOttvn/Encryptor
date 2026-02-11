@@ -1,10 +1,16 @@
-import React, {createContext, useContext, useEffect, useMemo, useState} from "react";
-import auth, {GoogleAuthProvider} from "@react-native-firebase/auth";
-import {GoogleSignin} from "@react-native-google-signin/google-signin";
-import type {FirebaseAuthTypes} from "@react-native-firebase/auth";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithCredential,
+  signOut,
+  GoogleAuthProvider,
+  type FirebaseAuthTypes,
+} from "@react-native-firebase/auth";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 type AuthCtx = {
-  user: any | null;
+  user: FirebaseAuthTypes.User | null;
   isLoading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -12,35 +18,41 @@ type AuthCtx = {
 
 const Ctx = createContext<AuthCtx | null>(null);
 
-export function AuthProvider({children}: {children: React.ReactNode}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const authInstance = getAuth();
+
   useEffect(() => {
-    const unsub = auth().onAuthStateChanged((u) => {
+    const unsub = onAuthStateChanged(authInstance, (u) => {
       setUser(u);
       setIsLoading(false);
     });
     return unsub;
-  }, []);
+  }, [authInstance]);
 
   async function signInWithGoogle() {
-    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     await GoogleSignin.signIn();
-    const {idToken} = await GoogleSignin.getTokens();
+
+    const { idToken } = await GoogleSignin.getTokens();
     if (!idToken) throw new Error("No Google idToken");
 
     const credential = GoogleAuthProvider.credential(idToken);
-    await auth().signInWithCredential(credential);
+    await signInWithCredential(authInstance, credential);
   }
 
   async function signOutUser() {
-    await auth().signOut();
-    // Show the google account chooser on the next login
+    await signOut(authInstance);
+    // Show the Google account chooser next time
     await GoogleSignin.signOut();
   }
 
-  const value = useMemo(() => ({user, isLoading, signInWithGoogle, signOut: signOutUser}), [user, isLoading]);
+  const value = useMemo(
+    () => ({ user, isLoading, signInWithGoogle, signOut: signOutUser }),
+    [user, isLoading]
+  );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

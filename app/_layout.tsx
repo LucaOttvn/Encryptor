@@ -6,7 +6,6 @@ import {Stack} from "expo-router";
 import {StatusBar} from "expo-status-bar";
 import {AuthProvider, useAuth} from "@/context/AuthContext";
 import {useEffect} from "react";
-import "react-native-reanimated";
 
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
