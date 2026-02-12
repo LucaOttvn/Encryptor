@@ -1,3 +1,5 @@
+import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
+import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import {ThemedText} from "@/components/themed-text";
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
@@ -14,6 +16,7 @@ export default function Home() {
   const {theme} = useTheme();
 
   const [chats, setChats] = useState<Chat[]>();
+  const [isNewChatSheetOpen, setIsNewChatSheetOpen] = useState<boolean>(false);
   const styles = createStyles(theme);
 
   useEffect(() => {
@@ -24,7 +27,9 @@ export default function Home() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{
+      flex: 1
+    }}>
       <View style={styles.topBar}>
         <Link href="/settings" asChild>
           <Pressable
@@ -39,6 +44,9 @@ export default function Home() {
           onPressIn={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
           }}
+          onPress={() => {
+            setIsNewChatSheetOpen(true);
+          }}
         >
           <ThemedText>New Chat</ThemedText>
         </Pressable>
@@ -46,7 +54,7 @@ export default function Home() {
       <FlatList
         data={chats}
         style={{
-          height: "100%",
+          flex: 1,
         }}
         contentContainerStyle={{}}
         keyExtractor={(item) => item.id!.toString()}
@@ -77,6 +85,9 @@ export default function Home() {
           );
         }}
       />
+      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={() => setIsNewChatSheetOpen(false)} snapPoints={['35%']}>
+        <NewChatBottomSheet/>
+      </GeneralBottomSheet>
     </SafeAreaView>
   );
 }

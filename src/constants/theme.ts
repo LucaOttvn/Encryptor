@@ -4,12 +4,12 @@ export const Colors = {
   light: {
     foreground: '#000000',
     background: '#fff',
-    mainContent: '#303030',
+    mainContent: '#e0e0e0',
   },
   dark: {
     foreground: '#ECEDEE',
     background: '#101010',
-    mainContent: '#303030',
+    mainContent: '#151515',
   },
 };
 
