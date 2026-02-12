@@ -1,55 +1,49 @@
 import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
+import MainButton from "@/components/MainButton";
 import {ThemedText} from "@/components/themed-text";
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Chat} from "@/src/models/models";
-import {getChats} from "@/src/services/get-chats";
+import {getChats} from "@/src/services/getChats";
+import {subscribeToChats} from "@/src/services/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
 import {Link} from "expo-router";
 import {useEffect, useState} from "react";
-import {FlatList, Pressable, StyleSheet, View} from "react-native";
+import {FlatList, Keyboard, Pressable, StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Home() {
   const {theme} = useTheme();
 
-  const [chats, setChats] = useState<Chat[]>();
+  const [chats, setChats] = useState<Chat[]>([]);
   const [isNewChatSheetOpen, setIsNewChatSheetOpen] = useState<boolean>(false);
   const styles = createStyles(theme);
 
   useEffect(() => {
-    (async () => {
-      const res: Chat[] = await getChats();
-      setChats(res);
-    })();
+    const unsub = subscribeToChats((updatedChats) => {
+      setChats(updatedChats);
+    }, console.error);
+    return () => unsub();
   }, []);
 
+  function closeNewChatSheet() {
+    Keyboard.dismiss();
+    setIsNewChatSheetOpen(false);
+  }
+
   return (
-    <SafeAreaView style={{
-      flex: 1
-    }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
       <View style={styles.topBar}>
         <Link href="/settings" asChild>
-          <Pressable
-            onPressIn={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-            }}
-          >
-            <ThemedText>Settings</ThemedText>
-          </Pressable>
+          <MainButton text="Settings" />
         </Link>
-        <Pressable
-          onPressIn={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-          }}
-          onPress={() => {
-            setIsNewChatSheetOpen(true);
-          }}
-        >
-          <ThemedText>New Chat</ThemedText>
-        </Pressable>
+        <MainButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat" />
       </View>
       <FlatList
         data={chats}
@@ -85,8 +79,8 @@ export default function Home() {
           );
         }}
       />
-      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={() => setIsNewChatSheetOpen(false)} snapPoints={['35%']}>
-        <NewChatBottomSheet/>
+      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["35%"]}>
+        <NewChatBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} />
       </GeneralBottomSheet>
     </SafeAreaView>
   );

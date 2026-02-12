@@ -1,6 +1,6 @@
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Message} from "@/src/models/models";
-import {sendMessage} from "@/src/services/send-message";
+import {sendMessage} from "@/src/services/sendMessage";
 import {Ionicons} from "@expo/vector-icons";
 import {getAuth} from "@react-native-firebase/auth";
 import {serverTimestamp} from "@react-native-firebase/firestore";

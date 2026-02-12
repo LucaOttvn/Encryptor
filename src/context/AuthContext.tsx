@@ -8,7 +8,7 @@ import {
   type FirebaseAuthTypes,
 } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { upsertUser } from "../services/upsert-user";
+import { upsertUser } from "../services/upsertUser";
 
 type AuthCtx = {
   user: FirebaseAuthTypes.User | null;

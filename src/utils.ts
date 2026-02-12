@@ -18,6 +18,7 @@ export function getSharedStyles(theme: ColorPalette) {
       borderColor: theme.foreground,
       paddingHorizontal: 15,
       paddingVertical: 15,
+      color: theme.foreground
     },
   })
 }

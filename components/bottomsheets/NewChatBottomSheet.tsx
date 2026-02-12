@@ -1,17 +1,35 @@
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
+import {Chat} from "@/src/models/models";
 import {getSharedStyles} from "@/src/utils";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
+import MainButton from "../MainButton";
 import {ThemedText} from "../themed-text";
+import {createChat} from "@/src/services/createChat";
 
-export default function NewChatBottomSheet() {
+type NewChatBottomSheetProps = {
+  onCancel: () => void;
+  onConfirm: () => void;
+};
+
+export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   const {theme} = useTheme();
   const styles = createStyles(theme);
 
   const sharedStyles = useMemo(() => getSharedStyles(theme), [theme]);
+
+  const [chatName, setChatName] = useState<string>("");
+
+  async function handleCreateChat() {
+    const newChat: Chat = {
+      name: chatName,
+    };
+    console.log(newChat);
+    await createChat(newChat);
+  }
 
   return (
     <SafeAreaView
@@ -22,10 +40,16 @@ export default function NewChatBottomSheet() {
       edges={["bottom", "left", "right"]}
     >
       <ThemedText style={{...typography.h1, marginHorizontal: "auto"}}>New chat</ThemedText>
-      <BottomSheetTextInput placeholder="Insert chat name" style={sharedStyles.input}></BottomSheetTextInput>
+      <BottomSheetTextInput placeholder="Insert chat name" style={sharedStyles.input} onChangeText={setChatName} />
       <View style={styles.footer}>
-        <ThemedText>Cancel</ThemedText>
-        <ThemedText>Confirm</ThemedText>
+        <MainButton text="Cancel" onPress={props.onCancel} />
+        <MainButton
+          text="Confirm"
+          onPress={() => {
+            props.onConfirm();
+            handleCreateChat();
+          }}
+        />
       </View>
     </SafeAreaView>
   );

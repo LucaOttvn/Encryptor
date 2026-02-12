@@ -1,12 +1,12 @@
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import { MessageDisplay } from "@/src/models/models";
-import { subscribeToMessages } from "@/src/services/subscribe-to-messages";
-import { useHeaderHeight } from "@react-navigation/elements";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {MessageDisplay} from "@/src/models/models";
+import {subscribeToMessages} from "@/src/services/subscribeToMessages";
+import {useHeaderHeight} from "@react-navigation/elements";
+import {Stack, useLocalSearchParams} from "expo-router";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {FlatList, KeyboardAvoidingView, Platform} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Chat() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();
@@ -15,7 +15,7 @@ export default function Chat() {
   const didAutoScroll = useRef(false);
 
   useEffect(() => {
-    didAutoScroll.current = false
+    didAutoScroll.current = false;
     if (!id) return;
 
     const unsubscribe = subscribeToMessages(id, (msgs) => {
@@ -26,9 +26,9 @@ export default function Chat() {
   }, [id]);
 
   const listRef = useRef<FlatList<MessageDisplay>>(null);
-  
+
   const headerHeight = useHeaderHeight();
-  
+
   const keyboardVerticalOffset = Platform.OS === "ios" ? headerHeight + 10 : 0;
 
   const scrollToBottom = useCallback((animated = false) => {

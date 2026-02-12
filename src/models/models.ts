@@ -7,7 +7,7 @@ export type User = {
 }
 
 export type Chat = {
-  id?: number,
+  id?: string,
   name: string
 }
 

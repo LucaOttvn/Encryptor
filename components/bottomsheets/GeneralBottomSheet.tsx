@@ -30,15 +30,18 @@ export function GeneralBottomSheet({isOpen, onDismiss, snapPoints: snapPointsPro
 
   return (
     <BottomSheetModal
+      {...modalProps}
       ref={modalRef}
       snapPoints={snapPoints}
       index={0}
       onDismiss={onDismiss}
       enableDynamicSizing={false}
-      {...modalProps}
       backgroundStyle={{backgroundColor: theme.mainContent, borderRadius: 30}}
       handleIndicatorStyle={{backgroundColor: theme.foreground}}
       backdropComponent={renderBackdrop}
+      keyboardBehavior="interactive"
+      keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustResize"
     >
       <View style={[{padding: 12, flex: 1}, contentContainerStyle]}>{children}</View>
     </BottomSheetModal>
