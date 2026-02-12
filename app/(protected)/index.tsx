@@ -1,11 +1,11 @@
 import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
-import MainButton from "@/components/MainButton";
+import AddButton from "@/components/buttons/AddButton";
+import MainButton from "@/components/buttons/MainButton";
 import {ThemedText} from "@/components/themed-text";
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Chat} from "@/src/models/models";
-import {getChats} from "@/src/services/getChats";
 import {subscribeToChats} from "@/src/services/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
@@ -43,7 +43,9 @@ export default function Home() {
         <Link href="/settings" asChild>
           <MainButton text="Settings" />
         </Link>
-        <MainButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat" />
+        <Link href="/friends" asChild>
+          <MainButton text="Friends" />
+        </Link>
       </View>
       <FlatList
         data={chats}
@@ -79,7 +81,8 @@ export default function Home() {
           );
         }}
       />
-      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["35%"]}>
+      <AddButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat"/>
+      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["100%"]}>
         <NewChatBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} />
       </GeneralBottomSheet>
     </SafeAreaView>

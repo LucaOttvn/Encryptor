@@ -11,6 +11,12 @@ export type Chat = {
   name: string
 }
 
+// TODO: friendship status (pending/accepted/blocked)
+export type Friendship = {
+  userA: string
+  userB: string
+}
+
 export type Message = {
   id?: string;
   chatId: string;

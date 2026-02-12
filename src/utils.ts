@@ -1,5 +1,5 @@
 import type { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { ColorPalette } from "./context/ThemeContext";
 
 export function formatHHMM(ts?: FirebaseFirestoreTypes.Timestamp | null) {
@@ -20,5 +20,25 @@ export function getSharedStyles(theme: ColorPalette) {
       paddingVertical: 15,
       color: theme.foreground
     },
+    addButton: {
+      position: 'absolute',
+      bottom: 60,
+      alignSelf: 'center',
+      backgroundColor: theme.foreground,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: 30,
+      ...Platform.select({
+        ios: {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 6 },
+          shadowOpacity: 0.2,
+          shadowRadius: 12,
+        },
+        android: {
+          elevation: 6,
+        },
+      }),
+    }
   })
 }

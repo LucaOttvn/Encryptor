@@ -1,6 +1,6 @@
 import {Pressable, StyleProp, TextStyle, ViewStyle} from "react-native";
-import {ThemedText} from "./themed-text";
 import * as Haptics from "expo-haptics";
+import { ThemedText } from "../themed-text";
 
 type MainButtonProps = {
   text: string;
@@ -13,8 +13,10 @@ export default function MainButton(props: MainButtonProps) {
   return (
     <Pressable
       hitSlop={10}
-      onPress={() => {
+      onPressIn={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+      }}
+      onPress={() => {
         if (props.onPress) props.onPress();
       }}
     >

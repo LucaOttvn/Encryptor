@@ -1,14 +1,14 @@
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
-import {Chat} from "@/src/models/models";
-import {getSharedStyles} from "@/src/utils";
-import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import {useMemo, useState} from "react";
-import {StyleSheet, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
-import MainButton from "../MainButton";
-import {ThemedText} from "../themed-text";
+import {Chat, User} from "@/src/models/models";
 import {createChat} from "@/src/services/createChat";
+import {BottomSheetFlatList, BottomSheetTextInput} from "@gorhom/bottom-sheet";
+import {useEffect, useState} from "react";
+import {ListRenderItemInfo, StyleSheet, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {ThemedText} from "../themed-text";
+import {useAuth} from "@/src/context/AuthContext";
+import MainButton from "../buttons/MainButton";
 
 type NewChatBottomSheetProps = {
   onCancel: () => void;
@@ -19,15 +19,23 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   const {theme} = useTheme();
   const styles = createStyles(theme);
 
-  const sharedStyles = useMemo(() => getSharedStyles(theme), [theme]);
-
   const [chatName, setChatName] = useState<string>("");
+  const [friends, setFriends] = useState<User[]>([]);
+
+  const {user: loggedUser} = useAuth();
+
+  useEffect(() => {
+    (async () => {
+
+    })();
+  }, [loggedUser]);
 
   async function handleCreateChat() {
+    if (chatName === "") return;
+    props.onConfirm();
     const newChat: Chat = {
       name: chatName,
     };
-    console.log(newChat);
     await createChat(newChat);
   }
 
@@ -37,19 +45,22 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
         flex: 1,
         justifyContent: "space-between",
       }}
-      edges={["bottom", "left", "right"]}
     >
-      <ThemedText style={{...typography.h1, marginHorizontal: "auto"}}>New chat</ThemedText>
-      <BottomSheetTextInput placeholder="Insert chat name" style={sharedStyles.input} onChangeText={setChatName} />
+      <BottomSheetTextInput
+        placeholder="Insert name"
+        style={{...typography.h1, color: theme.foreground, marginHorizontal: "auto", textAlign: chatName.length > 0 ? "center" : "right"}}
+        placeholderTextColor={theme.placeholders}
+        onChangeText={setChatName}
+      />
+      <BottomSheetFlatList
+        data={friends}
+        renderItem={({item}: ListRenderItemInfo<User>) => {
+          return <ThemedText>{item.name}</ThemedText>;
+        }}
+      />
       <View style={styles.footer}>
         <MainButton text="Cancel" onPress={props.onCancel} />
-        <MainButton
-          text="Confirm"
-          onPress={() => {
-            props.onConfirm();
-            handleCreateChat();
-          }}
-        />
+        <MainButton text="Confirm" onPress={handleCreateChat} />
       </View>
     </SafeAreaView>
   );

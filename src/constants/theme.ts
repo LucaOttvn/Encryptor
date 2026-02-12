@@ -5,11 +5,13 @@ export const Colors = {
     foreground: '#000000',
     background: '#fff',
     mainContent: '#e0e0e0',
+    placeholders: '#606060'
   },
   dark: {
     foreground: '#ECEDEE',
     background: '#101010',
     mainContent: '#151515',
+    placeholders: '#404040'
   },
 };
 
