@@ -26,6 +26,20 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
 
   const styles = createStyles(theme, chatName.length);
 
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+
+  function handleSelectedIds(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
   useEffect(() => {
     (async () => {
       if (!user) return;
@@ -35,10 +49,12 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   }, [user]);
 
   async function handleCreateChat() {
-    if (chatName === "") return;
+    // If no chat name has been inserted or no users have been selected do nothing
+    if (chatName === "" || selectedIds.size === 0) return;
     props.onConfirm();
     const newChat: Chat = {
       name: chatName,
+      members: Array.from(selectedIds),
     };
     await createChat(newChat);
   }
@@ -61,7 +77,7 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
 
       <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members</ThemedText>
 
-      <SelectUsersList data={friends} />
+      <SelectUsersList data={friends} handleSelected={handleSelectedIds} selectedIds={selectedIds} />
 
       {/* <BottomSheetFlatList
         data={friends}

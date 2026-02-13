@@ -73,14 +73,14 @@ export default function Home() {
               >
                 <View style={styles.chat}>
                   <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
-                  <ThemedText>4 Users</ThemedText>
+                  <ThemedText>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
                 </View>
               </Pressable>
             </Link>
           );
         }}
       />
-      <AddButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat"/>
+      <AddButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat" />
       <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["100%"]}>
         <NewChatBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} />
       </GeneralBottomSheet>

@@ -7,7 +7,8 @@ export type User = {
 
 export type Chat = {
   id?: string,
-  name: string
+  name: string,
+  members: string[]
 }
 
 // TODO: friendship status (pending/accepted/blocked)
