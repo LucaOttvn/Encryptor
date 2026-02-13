@@ -36,7 +36,7 @@ export function GeneralBottomSheet({isOpen, onDismiss, snapPoints: snapPointsPro
       index={0}
       onDismiss={onDismiss}
       enableDynamicSizing={false}
-      backgroundStyle={{backgroundColor: theme.mainContent, borderRadius: 30}}
+      backgroundStyle={{backgroundColor: theme.background, borderRadius: 30}}
       handleIndicatorStyle={{backgroundColor: theme.foreground}}
       backdropComponent={renderBackdrop}
       keyboardBehavior="interactive"

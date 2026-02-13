@@ -39,6 +39,16 @@ export function getSharedStyles(theme: ColorPalette) {
           elevation: 6,
         },
       }),
-    }
+    },
+    actions: {
+      flexDirection: "row",
+      height: "100%",
+    },
+    action: {
+      width: 96,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.foreground
+    },
   })
 }

@@ -2,6 +2,8 @@ import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import MainButton from "@/components/buttons/MainButton";
+import UserSwipeableActions from "@/components/swipeable/actions/UserSwipeableActions";
+import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
 import {ThemedText} from "@/components/themed-text";
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
@@ -56,27 +58,29 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => {
           return (
-            <Link
-              href={{
-                pathname: "./chat/[id]",
-                params: {
-                  id: String(item.id),
-                  name: item.name,
-                },
-              }}
-              asChild
-            >
-              <Pressable
-                onPressIn={() => {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+            <SwipeableComponent actions={UserSwipeableActions}>
+              <Link
+                href={{
+                  pathname: "./chat/[id]",
+                  params: {
+                    id: String(item.id),
+                    name: item.name,
+                  },
                 }}
+                asChild
               >
-                <View style={styles.chat}>
-                  <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
-                  <ThemedText>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
-                </View>
-              </Pressable>
-            </Link>
+                <Pressable
+                  onPressIn={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+                  }}
+                >
+                  <View style={styles.chat}>
+                    <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
+                    <ThemedText>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
+                  </View>
+                </Pressable>
+              </Link>
+            </SwipeableComponent>
           );
         }}
       />
@@ -91,6 +95,7 @@ export default function Home() {
 function createStyles(theme: ColorPalette) {
   return StyleSheet.create({
     chat: {
+      backgroundColor: theme.background,
       borderColor: theme.foreground,
       borderBottomWidth: 1,
       paddingHorizontal: 20,
