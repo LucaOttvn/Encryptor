@@ -1,14 +1,16 @@
 import {typography} from "@/src/constants/theme";
+import {useAuth} from "@/src/context/AuthContext";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Chat, User} from "@/src/models/models";
 import {createChat} from "@/src/services/createChat";
-import {BottomSheetFlatList, BottomSheetTextInput} from "@gorhom/bottom-sheet";
+import {getFriendships} from "@/src/services/getFriendships";
+import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import {useEffect, useState} from "react";
-import {ListRenderItemInfo, StyleSheet, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {ThemedText} from "../themed-text";
-import {useAuth} from "@/src/context/AuthContext";
 import MainButton from "../buttons/MainButton";
+import SelectUsersList from "../SelectUsersList";
+import {ThemedText} from "../themed-text";
 
 type NewChatBottomSheetProps = {
   onCancel: () => void;
@@ -17,18 +19,20 @@ type NewChatBottomSheetProps = {
 
 export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   const {theme} = useTheme();
-  const styles = createStyles(theme);
+  const {user} = useAuth();
 
   const [chatName, setChatName] = useState<string>("");
   const [friends, setFriends] = useState<User[]>([]);
 
-  const {user: loggedUser} = useAuth();
+  const styles = createStyles(theme, chatName.length);
 
   useEffect(() => {
     (async () => {
-
+      if (!user) return;
+      const friendsResult: User[] = await getFriendships(user.uid);
+      setFriends(friendsResult);
     })();
-  }, [loggedUser]);
+  }, [user]);
 
   async function handleCreateChat() {
     if (chatName === "") return;
@@ -44,20 +48,27 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
       style={{
         flex: 1,
         justifyContent: "space-between",
+        gap: 30,
       }}
     >
-      <BottomSheetTextInput
-        placeholder="Insert name"
-        style={{...typography.h1, color: theme.foreground, marginHorizontal: "auto", textAlign: chatName.length > 0 ? "center" : "right"}}
-        placeholderTextColor={theme.placeholders}
-        onChangeText={setChatName}
-      />
-      <BottomSheetFlatList
+      <View
+        style={{
+          paddingBottom: 40,
+        }}
+      >
+        <BottomSheetTextInput placeholder="Chat name" style={{...typography.h1, ...styles.chatNameInput}} placeholderTextColor={theme.grey} onChangeText={setChatName} />
+      </View>
+
+      <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members</ThemedText>
+
+      <SelectUsersList data={friends} />
+
+      {/* <BottomSheetFlatList
         data={friends}
         renderItem={({item}: ListRenderItemInfo<User>) => {
-          return <ThemedText>{item.name}</ThemedText>;
+          return <UserCard user={item} />;
         }}
-      />
+      /> */}
       <View style={styles.footer}>
         <MainButton text="Cancel" onPress={props.onCancel} />
         <MainButton text="Confirm" onPress={handleCreateChat} />
@@ -66,16 +77,21 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   );
 }
 
-function createStyles(theme: ColorPalette) {
+function createStyles(theme: ColorPalette, chatNameLength: number) {
   return StyleSheet.create({
     footer: {
       flexDirection: "row",
       justifyContent: "space-around",
       width: "100%",
-      borderTopColor: theme.foreground,
+      borderTopColor: theme.grey,
       borderTopWidth: 1,
       paddingBottom: 10,
       paddingTop: 20,
+    },
+    chatNameInput: {
+      color: theme.foreground,
+      marginHorizontal: "auto",
+      textAlign: chatNameLength > 0 ? "center" : "right",
     },
   });
 }

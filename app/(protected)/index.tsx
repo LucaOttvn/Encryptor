@@ -52,7 +52,6 @@ export default function Home() {
         style={{
           flex: 1,
         }}
-        contentContainerStyle={{}}
         keyExtractor={(item) => item.id!.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => {

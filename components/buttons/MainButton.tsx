@@ -19,8 +19,9 @@ export default function MainButton(props: MainButtonProps) {
       onPress={() => {
         if (props.onPress) props.onPress();
       }}
+      style={props.containerStyle}
     >
-      <ThemedText>{props.text}</ThemedText>
+      <ThemedText style={props.textStyle}>{props.text}</ThemedText>
     </Pressable>
   );
 }
