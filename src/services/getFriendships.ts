@@ -1,12 +1,12 @@
 import {
-    getFirestore,
     collection,
+    getDocs,
+    getFirestore,
     query,
     where,
-    getDocs,
 } from "@react-native-firebase/firestore";
-import { getUsers } from "./getUsers";
 import { User } from "../models/models";
+import { getUsers } from "./user/getUsers";
 
 export async function getFriendships(loggedUid: string): Promise<User[]> {
     const db = getFirestore();

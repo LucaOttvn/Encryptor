@@ -1,12 +1,12 @@
-import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
-import {Message} from "@/src/models/models";
-import {sendMessage} from "@/src/services/sendMessage";
-import {Ionicons} from "@expo/vector-icons";
-import {getAuth} from "@react-native-firebase/auth";
-import {serverTimestamp} from "@react-native-firebase/firestore";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Message } from "@/src/models/models";
+import { sendMessage } from "@/src/services/message/sendMessage";
+import { Ionicons } from "@expo/vector-icons";
+import { getAuth } from "@react-native-firebase/auth";
+import { serverTimestamp } from "@react-native-firebase/firestore";
 import * as Haptics from "expo-haptics";
-import {useRef, useState} from "react";
-import {Animated, Easing, Pressable, StyleSheet, TextInput, View} from "react-native";
+import { useRef, useState } from "react";
+import { Animated, Easing, Pressable, StyleSheet, TextInput, View } from "react-native";
 
 type MessageInputProps = {
   chatId: string;

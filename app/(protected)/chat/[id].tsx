@@ -1,12 +1,12 @@
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import {MessageDisplay} from "@/src/models/models";
-import {subscribeToMessages} from "@/src/services/subscribeToMessages";
-import {useHeaderHeight} from "@react-navigation/elements";
-import {Stack, useLocalSearchParams} from "expo-router";
-import {useCallback, useEffect, useRef, useState} from "react";
-import {FlatList, KeyboardAvoidingView, Platform} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { MessageDisplay } from "@/src/models/models";
+import { subscribeToMessages } from "@/src/services/message/subscribeToMessages";
+import { useHeaderHeight } from "@react-navigation/elements";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Chat() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();

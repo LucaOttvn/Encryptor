@@ -9,6 +9,12 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+/**
+ * TODO:
+ * - Notifications
+ * - Local data caching
+ */
+
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
     SpaceMono_400Regular,

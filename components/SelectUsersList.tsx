@@ -30,7 +30,7 @@ export default function SelectUsersList(props: SelectUsersListProps) {
             onPress={() => props.handleSelected(item.id)}
             containerStyle={{
               paddingVertical: 10,
-              paddingHorizontal: 20,
+              paddingHorizontal: 10,
               backgroundColor: selected ? theme.foreground : "",
             }}
             textStyle={{

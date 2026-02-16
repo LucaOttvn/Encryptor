@@ -1,5 +1,5 @@
 import { addDoc, collection, getFirestore } from "@react-native-firebase/firestore";
-import { Message } from "../models/models";
+import { Message } from "../../models/models";
 
 export async function sendMessage(message: Message) {
 

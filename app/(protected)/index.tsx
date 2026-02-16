@@ -8,7 +8,7 @@ import {ThemedText} from "@/components/themed-text";
 import {typography} from "@/src/constants/theme";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Chat} from "@/src/models/models";
-import {subscribeToChats} from "@/src/services/subscribeToChats";
+import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
 import {Link} from "expo-router";
@@ -58,7 +58,7 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => {
           return (
-            <SwipeableComponent actions={UserSwipeableActions}>
+            <SwipeableComponent actions={() => UserSwipeableActions({chatId: item.id!})}>
               <Link
                 href={{
                   pathname: "./chat/[id]",

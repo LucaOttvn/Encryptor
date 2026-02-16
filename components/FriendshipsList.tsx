@@ -14,7 +14,6 @@ export default function FriendshipsList() {
     (async () => {
       if (!user) return;
       const friendsResult: User[] = await getFriendships(user.uid);
-      console.log(friendsResult);
       setFriends(friendsResult);
     })();
   }, [user]);

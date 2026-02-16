@@ -1,5 +1,5 @@
 import { addDoc, collection, getFirestore } from "@react-native-firebase/firestore";
-import { Chat } from "../models/models";
+import { Chat } from "../../models/models";
 
 export async function createChat(chat: Chat) {
 

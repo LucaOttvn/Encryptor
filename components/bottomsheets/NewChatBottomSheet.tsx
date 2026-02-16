@@ -1,16 +1,16 @@
-import {typography} from "@/src/constants/theme";
-import {useAuth} from "@/src/context/AuthContext";
-import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
-import {Chat, User} from "@/src/models/models";
-import {createChat} from "@/src/services/createChat";
-import {getFriendships} from "@/src/services/getFriendships";
-import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import {useEffect, useState} from "react";
-import {StyleSheet, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Chat, User } from "@/src/models/models";
+import { createChat } from "@/src/services/chat/createChat";
+import { getFriendships } from "@/src/services/getFriendships";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MainButton from "../buttons/MainButton";
 import SelectUsersList from "../SelectUsersList";
-import {ThemedText} from "../themed-text";
+import { ThemedText } from "../themed-text";
 
 type NewChatBottomSheetProps = {
   onCancel: () => void;

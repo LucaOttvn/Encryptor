@@ -1,14 +1,7 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithCredential,
-  signOut,
-  GoogleAuthProvider,
-  type FirebaseAuthTypes,
-} from "@react-native-firebase/auth";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, signOut, type FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { upsertUser } from "../services/upsertUser";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { upsertUser } from "../services/user/upsertUser";
 
 type AuthCtx = {
   user: FirebaseAuthTypes.User | null;
@@ -19,7 +12,7 @@ type AuthCtx = {
 
 const Ctx = createContext<AuthCtx | null>(null);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({children}: {children: React.ReactNode}) {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -34,16 +27,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [authInstance]);
 
   async function signInWithGoogle() {
-    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
     await GoogleSignin.signIn();
 
-    const { idToken } = await GoogleSignin.getTokens();
+    const {idToken} = await GoogleSignin.getTokens();
     if (!idToken) throw new Error("No Google idToken");
 
     const credential = GoogleAuthProvider.credential(idToken);
     await signInWithCredential(authInstance, credential);
 
-    await upsertUser()
+    await upsertUser();
   }
 
   async function signOutUser() {
@@ -52,10 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await GoogleSignin.signOut();
   }
 
-  const value = useMemo(
-    () => ({ user, isLoading, signInWithGoogle, signOut: signOutUser }),
-    [user, isLoading]
-  );
+  const value = useMemo(() => ({user, isLoading, signInWithGoogle, signOut: signOutUser}), [user, isLoading]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
