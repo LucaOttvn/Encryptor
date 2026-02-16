@@ -79,12 +79,6 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
 
       <SelectUsersList data={friends} handleSelected={handleSelectedIds} selectedIds={selectedIds} />
 
-      {/* <BottomSheetFlatList
-        data={friends}
-        renderItem={({item}: ListRenderItemInfo<User>) => {
-          return <UserCard user={item} />;
-        }}
-      /> */}
       <View style={styles.footer}>
         <MainButton text="Cancel" onPress={props.onCancel} />
         <MainButton text="Confirm" onPress={handleCreateChat} />

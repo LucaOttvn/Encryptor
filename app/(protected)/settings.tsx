@@ -1,3 +1,4 @@
+import MainButton from "@/components/buttons/MainButton";
 import { ThemedText } from "@/components/themed-text";
 import { typography } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
@@ -18,12 +19,15 @@ export default function Settings() {
       style={{
         flex: 1,
         paddingHorizontal: 20,
+        paddingBottom: 20,
         gap: 40,
+        justifyContent: 'space-between'
       }}
     >
       <View
         style={{
           flexDirection: "row",
+          justifyContent: 'center',
           alignItems: "center",
           gap: 20,
         }}
@@ -37,9 +41,9 @@ export default function Settings() {
           onValueChange={handleThemeChange}
         ></Switch>
       </View>
-      <Pressable onPress={signOut}>
-        <ThemedText>Sign Out</ThemedText>
-      </Pressable>
+      <MainButton text="Sign Out" textStyle={typography.h2} containerStyle={{
+        alignSelf: 'center',
+      }} onPress={signOut}/>
     </SafeAreaView>
   );
 }

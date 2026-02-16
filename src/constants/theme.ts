@@ -4,7 +4,7 @@ export const Colors = {
   light: {
     foreground: '#000000',
     background: '#fff',
-    grey: '#606060',
+    grey: '#707070',
   },
   dark: {
     foreground: '#ECEDEE',

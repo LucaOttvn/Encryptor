@@ -13,6 +13,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
  * TODO:
  * - Notifications
  * - Local data caching
+ * - Add friend
+ * - Block friend
+ * - Username instead of email name
  */
 
 export default function RootLayout() {
