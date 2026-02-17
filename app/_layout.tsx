@@ -17,6 +17,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
  * - Edit chat
  * - Notifications
  * - Local data caching
+ * - Friendship status (pending/accepted/blocked)
  */
 
 export default function RootLayout() {

@@ -11,7 +11,6 @@ export type Chat = {
   members: string[]
 }
 
-// TODO: friendship status (pending/accepted/blocked)
 export type Friendship = {
   members: string[]
 }
