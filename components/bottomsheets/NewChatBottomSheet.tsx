@@ -3,7 +3,7 @@ import { useAuth } from "@/src/context/AuthContext";
 import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
 import { Chat, User } from "@/src/models/models";
 import { createChat } from "@/src/services/chat/createChat";
-import { getFriendships } from "@/src/services/getFriendships";
+import { getFriendships } from "@/src/services/friendships/getFriendships";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";

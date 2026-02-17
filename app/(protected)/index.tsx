@@ -1,34 +1,41 @@
-import { GeneralBottomSheet } from "@/components/bottomsheets/GeneralBottomSheet";
+import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import MainButton from "@/components/buttons/MainButton";
 import UserSwipeableActions from "@/components/swipeable/actions/UserSwipeableActions";
 import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
-import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/src/constants/theme";
-import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
-import { Chat } from "@/src/models/models";
-import { subscribeToChats } from "@/src/services/chat/subscribeToChats";
+import {ThemedText} from "@/components/themed-text";
+import {typography} from "@/src/constants/theme";
+import {useAuth} from "@/src/context/AuthContext";
+import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
+import {Chat} from "@/src/models/models";
+import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
-import { Link } from "expo-router";
-import { useEffect, useState } from "react";
-import { FlatList, Keyboard, Pressable, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {Link} from "expo-router";
+import {useEffect, useState} from "react";
+import {FlatList, Keyboard, Pressable, StyleSheet, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Home() {
   const {theme} = useTheme();
+  const {user} = useAuth();
 
   const [chats, setChats] = useState<Chat[]>([]);
   const [isNewChatSheetOpen, setIsNewChatSheetOpen] = useState<boolean>(false);
   const styles = createStyles(theme);
 
   useEffect(() => {
-    const unsub = subscribeToChats((updatedChats) => {
-      setChats(updatedChats);
-    }, console.error);
+    if (!user) return;
+    const unsub = subscribeToChats(
+      user.uid,
+      (updatedChats) => {
+        setChats(updatedChats);
+      },
+      console.error,
+    );
     return () => unsub();
-  }, []);
+  }, [user]);
 
   function closeNewChatSheet() {
     Keyboard.dismiss();

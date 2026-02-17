@@ -1,18 +1,24 @@
+import { Chat } from "@/src/models/models";
 import {
     collection,
     getFirestore,
     onSnapshot,
     query,
+    where,
     type FirebaseFirestoreTypes,
 } from "@react-native-firebase/firestore";
-import { Chat } from "../models/models";
 
 export function subscribeToChats(
+    userId: string,
     onUpdate: (chats: Chat[]) => void,
     onError?: (error: unknown) => void
 ) {
     const db = getFirestore();
-    const q = query(collection(db, "chats"));
+    const q = query(
+        collection(db, "chats"),
+        where("members", "array-contains", userId)
+
+    );
 
     const unsubscribe = onSnapshot(
         q,

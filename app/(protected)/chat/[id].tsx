@@ -1,19 +1,19 @@
-import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
+import { GeneralBottomSheet } from "@/components/bottomsheets/GeneralBottomSheet";
 import MainButton from "@/components/buttons/MainButton";
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import {ThemedText} from "@/components/themed-text";
-import {typography} from "@/src/constants/theme";
-import {Chat, MessageDisplay, User} from "@/src/models/models";
-import {getChat} from "@/src/services/chat/getChat";
-import {subscribeToMessages} from "@/src/services/message/subscribeToMessages";
-import {getUsers} from "@/src/services/user/getUsers";
-import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
-import {useHeaderHeight} from "@react-navigation/elements";
-import {Stack, useLocalSearchParams} from "expo-router";
-import {useCallback, useEffect, useRef, useState} from "react";
-import {FlatList, KeyboardAvoidingView, Platform} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { ThemedText } from "@/components/themed-text";
+import { typography } from "@/src/constants/theme";
+import { MessageDisplay, User } from "@/src/models/models";
+import { getChat } from "@/src/services/chat/getChat";
+import { subscribeToMessages } from "@/src/services/message/subscribeToMessages";
+import { getUsers } from "@/src/services/user/getUsers";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { useHeaderHeight } from "@react-navigation/elements";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ChatPage() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();
