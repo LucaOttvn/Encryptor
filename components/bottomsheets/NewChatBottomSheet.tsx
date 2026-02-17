@@ -52,9 +52,10 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
     // If no chat name has been inserted or no users have been selected do nothing
     if (chatName === "" || selectedIds.size === 0) return;
     props.onConfirm();
+    const users = [...Array.from(selectedIds), user!.uid]
     const newChat: Chat = {
       name: chatName,
-      members: Array.from(selectedIds),
+      members: users,
     };
     await createChat(newChat);
   }

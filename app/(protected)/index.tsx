@@ -1,20 +1,20 @@
-import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
+import { GeneralBottomSheet } from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import MainButton from "@/components/buttons/MainButton";
 import UserSwipeableActions from "@/components/swipeable/actions/UserSwipeableActions";
 import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
-import {ThemedText} from "@/components/themed-text";
-import {typography} from "@/src/constants/theme";
-import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
-import {Chat} from "@/src/models/models";
-import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
+import { ThemedText } from "@/components/themed-text";
+import { typography } from "@/src/constants/theme";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Chat } from "@/src/models/models";
+import { subscribeToChats } from "@/src/services/chat/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
-import {Link} from "expo-router";
-import {useEffect, useState} from "react";
-import {FlatList, Keyboard, Pressable, StyleSheet, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { Link } from "expo-router";
+import { useEffect, useState } from "react";
+import { FlatList, Keyboard, Pressable, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   const {theme} = useTheme();
@@ -85,7 +85,7 @@ export default function Home() {
         }}
       />
       <AddButton onPress={() => setIsNewChatSheetOpen(true)} text="New Chat" />
-      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["100%"]}>
+      <GeneralBottomSheet isOpen={isNewChatSheetOpen} onDismiss={closeNewChatSheet}>
         <NewChatBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} />
       </GeneralBottomSheet>
     </SafeAreaView>

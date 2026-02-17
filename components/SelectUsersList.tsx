@@ -26,7 +26,7 @@ export default function SelectUsersList(props: SelectUsersListProps) {
 
         return (
           <MainButton
-            text={item.name}
+            text={`- ${item.name}`}
             onPress={() => props.handleSelected(item.id)}
             containerStyle={{
               paddingVertical: 10,
