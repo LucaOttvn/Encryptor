@@ -17,4 +17,6 @@ export const typography = StyleSheet.create({
   h1: { fontSize: 30, fontFamily: 'Montserrat_700Bold' },
   h2: { fontSize: 24, fontFamily: 'Montserrat_700Bold' },
   h3: { fontSize: 16, fontFamily: 'Montserrat_700Bold' },
+  digitalH1: { fontSize: 60, fontFamily: 'draco' },
+  digitalParagraph: { fontSize: 30, fontFamily: 'draco' }
 });

@@ -1,13 +1,15 @@
-import { AuthProvider, useAuth } from "@/src/context/AuthContext";
-import { ThemeProvider, useTheme } from "@/src/context/ThemeContext";
-import { Montserrat_400Regular, Montserrat_700Bold } from "@expo-google-fonts/montserrat";
-import { SpaceMono_400Regular, SpaceMono_700Bold, useFonts } from "@expo-google-fonts/space-mono";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {AuthProvider, useAuth} from "@/src/context/AuthContext";
+import {ThemeProvider, useTheme} from "@/src/context/ThemeContext";
+import {Montserrat_400Regular, Montserrat_700Bold} from "@expo-google-fonts/montserrat";
+import {useFonts} from "expo-font";
+import {SpaceMono_400Regular, SpaceMono_700Bold} from "@expo-google-fonts/space-mono";
+import {BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {GoogleSignin} from "@react-native-google-signin/google-signin";
+import {Stack} from "expo-router";
+import {StatusBar} from "expo-status-bar";
+import {useEffect} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import "../assets/fonts/draco.ttf";
 
 /**
  * TODO:
@@ -26,6 +28,7 @@ export default function RootLayout() {
     SpaceMono_700Bold,
     Montserrat_400Regular,
     Montserrat_700Bold,
+    draco: require("../assets/fonts/draco.ttf"),
   });
 
   useEffect(() => {

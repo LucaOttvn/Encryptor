@@ -1,8 +1,8 @@
-import { useTheme } from "@/src/context/ThemeContext";
-import { getSharedStyles } from "@/src/utils";
-import * as Haptics from "expo-haptics";
 import { Pressable } from "react-native";
 import { ThemedText } from "../themed-text";
+import { getSharedStyles } from "@/src/utils";
+import { useTheme } from "@/src/context/ThemeContext";
+import * as Haptics from "expo-haptics";
 
 type AddButtonProps = {
   text: string;

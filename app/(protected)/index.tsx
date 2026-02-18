@@ -14,7 +14,7 @@ import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
 import * as Haptics from "expo-haptics";
 import {Link} from "expo-router";
 import {useEffect, useState} from "react";
-import {FlatList, Keyboard, Pressable, StyleSheet, View} from "react-native";
+import {FlatList, Keyboard, Pressable, StyleSheet, View, Text} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Home() {
@@ -82,8 +82,8 @@ export default function Home() {
                   }}
                 >
                   <View style={styles.chat}>
-                    <ThemedText style={typography.h1}>{item.name.toUpperCase()}</ThemedText>
-                    <ThemedText>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
+                    <ThemedText style={typography.digitalH1}>{item.name.toUpperCase()}</ThemedText>
+                    <ThemedText style={typography.digitalParagraph}>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
                   </View>
                 </Pressable>
               </Link>
@@ -103,10 +103,9 @@ function createStyles(theme: ColorPalette) {
   return StyleSheet.create({
     chat: {
       backgroundColor: theme.background,
-      borderColor: theme.foreground,
-      borderBottomWidth: 1,
       paddingHorizontal: 20,
       paddingVertical: 20,
+      gap: 10
     },
     topBar: {
       flexDirection: "row",
@@ -114,8 +113,6 @@ function createStyles(theme: ColorPalette) {
       paddingTop: 10,
       paddingBottom: 20,
       paddingHorizontal: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.foreground,
     },
   });
 }
