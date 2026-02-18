@@ -31,7 +31,7 @@ export default function SelectUsersList(props: SelectUsersListProps) {
             containerStyle={{
               paddingVertical: 10,
               paddingHorizontal: 10,
-              backgroundColor: selected ? theme.foreground : "",
+              backgroundColor: selected ? theme.accent : "",
             }}
             textStyle={{
               color: selected ? theme.background : theme.foreground,

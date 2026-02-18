@@ -82,8 +82,12 @@ export default function Home() {
                   }}
                 >
                   <View style={styles.chat}>
-                    <ThemedText style={typography.digitalH1}>{item.name.toUpperCase()}</ThemedText>
-                    <ThemedText style={typography.digitalParagraph}>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
+                    <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{item.name.toUpperCase()}</ThemedText>
+                    <ThemedText
+                      style={{
+
+                      }}
+                    >{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
                   </View>
                 </Pressable>
               </Link>
@@ -104,8 +108,8 @@ function createStyles(theme: ColorPalette) {
     chat: {
       backgroundColor: theme.background,
       paddingHorizontal: 20,
-      paddingVertical: 20,
-      gap: 10
+      paddingVertical: 10,
+      gap: 0,
     },
     topBar: {
       flexDirection: "row",
@@ -113,6 +117,9 @@ function createStyles(theme: ColorPalette) {
       paddingTop: 10,
       paddingBottom: 20,
       paddingHorizontal: 20,
+      marginBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.lightGrey,
     },
   });
 }

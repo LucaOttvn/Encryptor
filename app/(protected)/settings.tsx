@@ -3,11 +3,11 @@ import { ThemedText } from "@/components/themed-text";
 import { typography } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
 import { useTheme } from "@/src/context/ThemeContext";
-import { Pressable, Switch, View } from "react-native";
+import { Switch, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
-  const {isDark, toggleTheme} = useTheme();
+  const {theme, isDark, toggleTheme} = useTheme();
   const {signOut} = useAuth();
 
   function handleThemeChange() {
@@ -21,13 +21,13 @@ export default function Settings() {
         paddingHorizontal: 20,
         paddingBottom: 20,
         gap: 40,
-        justifyContent: 'space-between'
+        justifyContent: "space-between",
       }}
     >
       <View
         style={{
           flexDirection: "row",
-          justifyContent: 'center',
+          justifyContent: "center",
           alignItems: "center",
           gap: 20,
         }}
@@ -41,9 +41,14 @@ export default function Settings() {
           onValueChange={handleThemeChange}
         ></Switch>
       </View>
-      <MainButton text="Sign Out" textStyle={typography.h2} containerStyle={{
-        alignSelf: 'center',
-      }} onPress={signOut}/>
+      <MainButton
+        text="Sign Out"
+        textStyle={{...typography.h2, color: theme.accent}}
+        containerStyle={{
+          alignSelf: "center",
+        }}
+        onPress={signOut}
+      />
     </SafeAreaView>
   );
 }

@@ -24,10 +24,8 @@ export function getSharedStyles(theme: ColorPalette) {
       position: 'absolute',
       bottom: 60,
       alignSelf: 'center',
-      backgroundColor: theme.foreground,
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      borderRadius: 30,
+      borderBottomColor: theme.accent, 
+      borderBottomWidth: 1,
       ...Platform.select({
         ios: {
           shadowColor: "#000",

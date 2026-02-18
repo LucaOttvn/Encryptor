@@ -3,6 +3,7 @@ import { ThemedText } from "../themed-text";
 import { getSharedStyles } from "@/src/utils";
 import { useTheme } from "@/src/context/ThemeContext";
 import * as Haptics from "expo-haptics";
+import { typography } from "@/src/constants/theme";
 
 type AddButtonProps = {
   text: string;
@@ -21,9 +22,7 @@ export default function AddButton(props: AddButtonProps) {
       style={styles.addButton}
     >
       <ThemedText
-        style={{
-          color: theme.background,
-        }}
+        style={{...typography.h2, color: theme.accent}}
       >
         {props.text}
       </ThemedText>

@@ -3,7 +3,7 @@ import React from "react";
 import { Text, TextProps } from "react-native";
 
 export const ThemedText = ({style, ...props}: TextProps) => {
-  const {theme, isDark} = useTheme();
+  const {theme} = useTheme();
 
   return (
     <Text
