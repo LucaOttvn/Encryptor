@@ -24,19 +24,6 @@ export function getSharedStyles(theme: ColorPalette) {
       position: 'absolute',
       bottom: 60,
       alignSelf: 'center',
-      borderBottomColor: theme.accent, 
-      borderBottomWidth: 1,
-      ...Platform.select({
-        ios: {
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 6 },
-          shadowOpacity: 0.2,
-          shadowRadius: 12,
-        },
-        android: {
-          elevation: 6,
-        },
-      }),
     },
     actions: {
       flexDirection: "row",

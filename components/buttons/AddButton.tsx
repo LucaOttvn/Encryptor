@@ -22,7 +22,7 @@ export default function AddButton(props: AddButtonProps) {
       style={styles.addButton}
     >
       <ThemedText
-        style={{...typography.h2, color: theme.accent}}
+        style={{...typography.h2, color: theme.foreground}}
       >
         {props.text}
       </ThemedText>

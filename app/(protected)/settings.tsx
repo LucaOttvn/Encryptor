@@ -1,12 +1,13 @@
 import MainButton from "@/components/buttons/MainButton";
-import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/src/constants/theme";
-import { useAuth } from "@/src/context/AuthContext";
-import { useTheme } from "@/src/context/ThemeContext";
-import { Switch, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {ThemedText} from "@/components/themed-text";
+import {typography} from "@/src/constants/theme";
+import {useAuth} from "@/src/context/AuthContext";
+import {useTheme} from "@/src/context/ThemeContext";
+import {Switch, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Settings() {
+  const {user} = useAuth();
   const {theme, isDark, toggleTheme} = useTheme();
   const {signOut} = useAuth();
 
@@ -41,6 +42,9 @@ export default function Settings() {
           onValueChange={handleThemeChange}
         ></Switch>
       </View>
+      <ThemedText style={{
+        marginHorizontal: 'auto'
+      }}>{user?.email}</ThemedText>
       <MainButton
         text="Sign Out"
         textStyle={{...typography.h2, color: theme.accent}}
