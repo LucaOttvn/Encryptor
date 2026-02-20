@@ -4,6 +4,7 @@ import { formatHHMM } from "@/src/utils";
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import { StyleSheet, View } from "react-native";
 import { ThemedText } from "./themed-text";
+import { useAuth } from "@/src/context/AuthContext";
 
 interface MessageComponentProps {
   message: MessageDisplay;
@@ -11,6 +12,7 @@ interface MessageComponentProps {
 
 export default function MessageComponent(props: MessageComponentProps) {
   const {theme} = useTheme();
+  const {user} = useAuth();
 
   const styles = createStyles(theme);
 
@@ -25,7 +27,7 @@ export default function MessageComponent(props: MessageComponentProps) {
           alignSelf: "flex-start",
         }}
       >
-        {props.message.senderName}{" - "}
+        {props.message.senderId === user?.uid ? 'You' : props.message.senderName}{" - "}
         <ThemedText
           style={{
             color: "grey",

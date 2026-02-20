@@ -68,7 +68,7 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
         justifyContent: "space-between",
         gap: 30,
       }}
-      edges={['left', 'right', 'bottom']}
+      edges={["left", "right", "bottom"]}
     >
       <View
         style={{
@@ -79,6 +79,15 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
       </View>
 
       <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members: {selectedIds.size}</ThemedText>
+
+      <View
+        style={{
+          flex: 1,
+          margin: 'auto'
+        }}
+      >
+        <ThemedText style={{...typography.digitalH1, color: theme.grey}}>No friends</ThemedText>
+      </View>
 
       <FlatList
         style={{flex: 1, paddingHorizontal: 10}}

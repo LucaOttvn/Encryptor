@@ -13,11 +13,10 @@ import "../assets/fonts/draco.ttf";
 
 /**
  * TODO:
- * - Add friend
- * - Delete friend
+ * - Notifications
  * - Username instead of email name
  * - Edit chat name
- * - Notifications
+ * - Delete user
  * - Local data caching
  * - Friendship status (pending/accepted/blocked)
  */

@@ -2,22 +2,26 @@ import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewFriendBottomSheet from "@/components/bottomsheets/NewFriendBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import SwipeableFriendCard from "@/components/cards/SwipeableFriendCard";
+import {ThemedText} from "@/components/themed-text";
 
 import TopBar from "@/components/TopBar";
+import {typography} from "@/src/constants/theme";
 import {useAuth} from "@/src/context/AuthContext";
+import {useTheme} from "@/src/context/ThemeContext";
 import {Friendship} from "@/src/models/models";
 import {subscribeToFriendships} from "@/src/services/friendships/subscribeToFriendships";
 import {router} from "expo-router";
 import {useEffect, useState} from "react";
-import {FlatList, Keyboard} from "react-native";
+import {FlatList, Keyboard, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 
 /**
  * List of the logged user's friends.
- * @returns 
+ * @returns
  */
 export default function Users() {
   const {user} = useAuth();
+  const {theme} = useTheme();
 
   const [friendships, setFriendships] = useState<Friendship[]>([]);
   const [isNewFriendSheetOpen, setIsNewFriendSheetOpen] = useState(false);
@@ -50,8 +54,26 @@ export default function Users() {
           onPress: () => router.back(),
         }}
       />
+
+      {friendships.length === 0 && (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          <ThemedText
+            style={{
+              ...typography.digitalH1,
+              margin: "auto",
+              color: theme.grey,
+            }}
+          >
+            No friends
+          </ThemedText>
+        </View>
+      )}
       <FlatList
-        style={{flex: 1, paddingHorizontal: 10}}
+        style={{flex: 1, paddingHorizontal: 20}}
         contentContainerStyle={{
           gap: 10,
         }}
@@ -60,8 +82,9 @@ export default function Users() {
         showsVerticalScrollIndicator={false}
         renderItem={({item}) => <SwipeableFriendCard friendship={item} />}
       />
+
       <AddButton onPress={() => setIsNewFriendSheetOpen(true)} text="New Friend" />
-        
+
       <GeneralBottomSheet isOpen={isNewFriendSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["25%"]}>
         <NewFriendBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} newFriendEmail={newFriendEmail} handleNewFriendEmail={handleNewFriendEmail} />
       </GeneralBottomSheet>

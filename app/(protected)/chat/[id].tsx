@@ -84,6 +84,23 @@ export default function ChatPage() {
           }}
         />
         <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={keyboardVerticalOffset}>
+          {messages.length === 0 && (
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <ThemedText
+                style={{
+                  ...typography.digitalH1,
+                  margin: "auto",
+                  color: theme.grey,
+                }}
+              >
+                No messages
+              </ThemedText>
+            </View>
+          )}
           <FlatList
             ref={listRef}
             style={{flex: 1}}

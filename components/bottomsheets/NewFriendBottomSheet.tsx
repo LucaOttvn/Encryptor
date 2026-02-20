@@ -1,17 +1,17 @@
-import {typography} from "@/src/constants/theme";
-import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
-import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import {StyleSheet, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
+import { Friendship } from "@/src/models/models";
+import { createFriendship } from "@/src/services/friendships/createFriendship";
+import { getFriendships } from "@/src/services/friendships/getFriendships";
+import { validateEmail } from "@/src/utils";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MainButton from "../buttons/MainButton";
-import {ThemedText} from "../themed-text";
-import {useAuth} from "@/src/context/AuthContext";
-import {validateEmail} from "@/src/utils";
-import {getUserByName} from "@/src/services/user/getUserByName";
-import {getFriendships} from "@/src/services/friendships/getFriendships";
-import {Friendship} from "@/src/models/models";
-import {createFriendship} from "@/src/services/friendships/createFriendship";
-import {useState} from "react";
+import { ThemedText } from "../themed-text";
+import { getUserByEmail } from "@/src/services/user/getUserByName";
 
 type NewFriendBottomSheetProps = {
   onCancel: () => void;
@@ -35,7 +35,7 @@ export default function NewFriendBottomSheet(props: NewFriendBottomSheetProps) {
 
       if (!validationResult.ok) throw Error(validationResult.error);
 
-      const friend = await getUserByName(props.newFriendEmail);
+      const friend = await getUserByEmail(props.newFriendEmail);
 
       if (!friend) throw Error("User not found");
 
@@ -51,7 +51,7 @@ export default function NewFriendBottomSheet(props: NewFriendBottomSheetProps) {
 
       await createFriendship(newFriendship);
 
-      props.onConfirm()
+      props.onConfirm();
     } catch (error) {
       setError((error as Error).message);
     }

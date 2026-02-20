@@ -59,6 +59,23 @@ export default function Home() {
           onPress: () => router.push("/friends"),
         }}
       />
+
+      {chats.length === 0 && (
+        <View style={{
+          height: '100%',
+        }}>
+          <ThemedText
+            style={{
+              ...typography.digitalH1,
+              margin: "auto",
+              paddingBottom: 200,
+              color: theme.grey,
+            }}
+          >
+            No chats
+          </ThemedText>
+        </View>
+      )}
       <FlatList
         data={chats}
         style={{

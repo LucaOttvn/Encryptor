@@ -46,6 +46,7 @@ export default function SwipeableFriendCard(props: SwipeableFriendCardProps) {
         }}
       >
         <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{friend.name}</ThemedText>
+        <ThemedText>{friend.email}</ThemedText>
       </View>
     </SwipeableComponent>
   );

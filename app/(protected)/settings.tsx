@@ -21,7 +21,6 @@ export default function Settings() {
     <SafeAreaView
       style={{
         flex: 1,
-        paddingHorizontal: 20,
         paddingBottom: 20,
         gap: 40,
         alignItems: "center",
