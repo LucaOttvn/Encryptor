@@ -33,7 +33,17 @@ export function getSharedStyles(theme: ColorPalette) {
       width: 96,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.foreground
+      backgroundColor: theme.accent
+    },
+    topBar: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingTop: 10,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      marginBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.lightGrey,
     },
   })
 }

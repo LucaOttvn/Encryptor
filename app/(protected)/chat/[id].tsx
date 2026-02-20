@@ -1,22 +1,26 @@
-import { GeneralBottomSheet } from "@/components/bottomsheets/GeneralBottomSheet";
+import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import MainButton from "@/components/buttons/MainButton";
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
-import { ThemedText } from "@/components/themed-text";
-import { typography } from "@/src/constants/theme";
-import { MessageDisplay, User } from "@/src/models/models";
-import { getChat } from "@/src/services/chat/getChat";
-import { subscribeToMessages } from "@/src/services/message/subscribeToMessages";
-import { getUsers } from "@/src/services/user/getUsers";
-import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { useHeaderHeight } from "@react-navigation/elements";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {ThemedText} from "@/components/themed-text";
+import {typography} from "@/src/constants/theme";
+import {useTheme} from "@/src/context/ThemeContext";
+import {MessageDisplay, User} from "@/src/models/models";
+import {getChat} from "@/src/services/chat/getChat";
+import {subscribeToMessages} from "@/src/services/message/subscribeToMessages";
+import {getUsers} from "@/src/services/user/getUsers";
+import {getSharedStyles} from "@/src/utils";
+import {BottomSheetFlatList} from "@gorhom/bottom-sheet";
+import {useHeaderHeight} from "@react-navigation/elements";
+import {Link, router, Stack, useLocalSearchParams} from "expo-router";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {FlatList, KeyboardAvoidingView, Platform, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function ChatPage() {
   const {id, name: chatName} = useLocalSearchParams<{id: string; name?: string}>();
+
+  const {theme} = useTheme();
 
   const [messages, setMessages] = useState<MessageDisplay[]>([]);
   const [members, setMembers] = useState<User[]>([]);
@@ -54,17 +58,24 @@ export default function ChatPage() {
     });
   }, []);
 
+  const sharedStyles = getSharedStyles(theme);
+
   return (
     <>
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{
           title: chatName ?? `Chat ${id}`,
-          headerShown: true,
+          headerShown: false,
           headerRight: () => <MainButton text="Settings" containerStyle={{paddingHorizontal: 10}} onPress={() => setIsBottomSheetOpen(true)} />,
         }}
-      />
+      /> */}
 
-      <SafeAreaView style={{flex: 1}} edges={["bottom", "left", "right"]}>
+      <SafeAreaView style={{flex: 1}}>
+        <View style={sharedStyles.topBar}>
+          <MainButton text="Back" onPress={() => router.back()}/>
+          <ThemedText style={{...typography.digitalParagraph, color: theme.accent}}>{chatName}</ThemedText>
+          <MainButton text="Settings" onPress={() => setIsBottomSheetOpen(true)} />
+        </View>
         <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={keyboardVerticalOffset}>
           <FlatList
             ref={listRef}

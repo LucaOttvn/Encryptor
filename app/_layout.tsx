@@ -16,7 +16,7 @@ import "../assets/fonts/draco.ttf";
  * - Add friend
  * - Username instead of email name
  * - Block friend
- * - Edit chat
+ * - Edit chat name
  * - Notifications
  * - Local data caching
  * - Friendship status (pending/accepted/blocked)
@@ -110,11 +110,6 @@ function MainWrapper() {
           /> */}
           <Stack.Screen
             name="(protected)/friends"
-            options={{
-              headerShown: true,
-              headerBackTitle: "Chat",
-              title: "Friends",
-            }}
           />
         </Stack.Protected>
       </Stack>

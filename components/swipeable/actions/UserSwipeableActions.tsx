@@ -33,7 +33,7 @@ export default function UserSwipeableActions(props: UserSwipeableActionsProps) {
 
   return (
     <View style={styles.actions}>
-      <RectButton style={styles.action} onPress={() => console.log("More")}>
+      {/* <RectButton style={styles.action} onPress={() => console.log("More")}>
         <ThemedText
           style={{
             color: theme.background,
@@ -41,7 +41,7 @@ export default function UserSwipeableActions(props: UserSwipeableActionsProps) {
         >
           Edit
         </ThemedText>
-      </RectButton>
+      </RectButton> */}
       <RectButton style={styles.action} onPress={askToDelete}>
         <ThemedText
           style={{

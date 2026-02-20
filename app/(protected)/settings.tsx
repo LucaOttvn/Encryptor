@@ -1,10 +1,9 @@
 import MainButton from "@/components/buttons/MainButton";
-import {ThemedText} from "@/components/themed-text";
-import {typography} from "@/src/constants/theme";
-import {useAuth} from "@/src/context/AuthContext";
-import {useTheme} from "@/src/context/ThemeContext";
-import {Switch, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { ThemedText } from "@/components/themed-text";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { useTheme } from "@/src/context/ThemeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
   const {user} = useAuth();
@@ -23,9 +22,10 @@ export default function Settings() {
         paddingBottom: 20,
         gap: 40,
         justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
@@ -34,17 +34,15 @@ export default function Settings() {
         }}
       >
         <ThemedText style={typography.h2}>Dark Mode</ThemedText>
-        <Switch
-          style={{
-            marginVertical: "auto",
-          }}
-          value={isDark}
-          onValueChange={handleThemeChange}
-        ></Switch>
-      </View>
-      <ThemedText style={{
-        marginHorizontal: 'auto'
-      }}>{user?.email}</ThemedText>
+      </View> */}
+      <MainButton text={`Toggle ${isDark ? "Light" : "Dark"} Mode`} onPress={handleThemeChange} textStyle={{color: theme.accent}} />
+      <ThemedText
+        style={{
+          marginHorizontal: "auto",
+        }}
+      >
+        {user?.email}
+      </ThemedText>
       <MainButton
         text="Sign Out"
         textStyle={{...typography.h2, color: theme.accent}}
