@@ -5,11 +5,11 @@ import {getSharedStyles} from "@/src/utils";
 import {View, Alert} from "react-native";
 import {RectButton} from "react-native-gesture-handler";
 
-type UserSwipeableActionsProps = {
+type ChatSwipeableActionsProps = {
   chatId: string;
 };
 
-export default function UserSwipeableActions(props: UserSwipeableActionsProps) {
+export default function ChatSwipeableActions(props: ChatSwipeableActionsProps) {
   const {theme} = useTheme();
   const styles = getSharedStyles(theme);
 
@@ -32,7 +32,7 @@ export default function UserSwipeableActions(props: UserSwipeableActionsProps) {
   }
 
   return (
-    <View style={styles.actions}>
+    <View style={styles.swipeableActions}>
       {/* <RectButton style={styles.action} onPress={() => console.log("More")}>
         <ThemedText
           style={{
@@ -42,7 +42,7 @@ export default function UserSwipeableActions(props: UserSwipeableActionsProps) {
           Edit
         </ThemedText>
       </RectButton> */}
-      <RectButton style={styles.action} onPress={askToDelete}>
+      <RectButton style={styles.swipeableAction} onPress={askToDelete}>
         <ThemedText
           style={{
             color: theme.background,

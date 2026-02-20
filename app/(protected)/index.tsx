@@ -2,9 +2,10 @@ import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import MainButton from "@/components/buttons/MainButton";
-import UserSwipeableActions from "@/components/swipeable/actions/UserSwipeableActions";
+import UserSwipeableActions from "@/components/swipeable/actions/ChatSwipeableActions";
 import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
 import {ThemedText} from "@/components/themed-text";
+import TopBar from "@/components/TopBar";
 import {typography} from "@/src/constants/theme";
 import {useAuth} from "@/src/context/AuthContext";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
@@ -12,7 +13,7 @@ import {Chat} from "@/src/models/models";
 import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
 
 import * as Haptics from "expo-haptics";
-import {Link} from "expo-router";
+import {Link, router} from "expo-router";
 import {useEffect, useState} from "react";
 import {FlatList, Keyboard, Pressable, StyleSheet, View, Text} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
@@ -48,14 +49,16 @@ export default function Home() {
         flex: 1,
       }}
     >
-      <View style={styles.topBar}>
-        <Link href="/settings" asChild>
-          <MainButton text="Settings" />
-        </Link>
-        <Link href="/friends" asChild>
-          <MainButton text="Friends" />
-        </Link>
-      </View>
+      <TopBar
+        leftButton={{
+          text: "Settings",
+          onPress: () => router.push("/settings"),
+        }}
+        righButton={{
+          text: "Friends",
+          onPress: () => router.push("/friends"),
+        }}
+      />
       <FlatList
         data={chats}
         style={{
@@ -83,11 +86,7 @@ export default function Home() {
                 >
                   <View style={styles.chat}>
                     <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{item.name.toUpperCase()}</ThemedText>
-                    <ThemedText
-                      style={{
-
-                      }}
-                    >{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
+                    <ThemedText style={{}}>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
                   </View>
                 </Pressable>
               </Link>

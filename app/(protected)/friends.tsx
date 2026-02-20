@@ -2,18 +2,22 @@ import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewFriendBottomSheet from "@/components/bottomsheets/NewFriendBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
 import MainButton from "@/components/buttons/MainButton";
+import FriendSwipeableActions from "@/components/swipeable/actions/FriendSwipeableActions";
+import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
 import {ThemedText} from "@/components/themed-text";
-import { typography } from "@/src/constants/theme";
+import TopBar from "@/components/TopBar";
+import {typography} from "@/src/constants/theme";
 import {useAuth} from "@/src/context/AuthContext";
-import { useTheme } from "@/src/context/ThemeContext";
+import {useTheme} from "@/src/context/ThemeContext";
 import {Friendship, User} from "@/src/models/models";
 import {createFriendship} from "@/src/services/friendships/createFriendship";
 import {getFriendships} from "@/src/services/friendships/getFriendships";
 import {getUserByName} from "@/src/services/user/getUserByName";
-import { getSharedStyles } from "@/src/utils";
-import { router } from "expo-router";
+import {getSharedStyles} from "@/src/utils";
+import {router} from "expo-router";
 import {useEffect, useState} from "react";
 import {FlatList, View} from "react-native";
+import {RectButton} from "react-native-gesture-handler";
 import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function Users() {
@@ -25,7 +29,7 @@ export default function Users() {
   const [newFriendName, setNewFriendName] = useState("");
   const [error, setError] = useState<string>();
 
-  const sharedStyles = getSharedStyles(theme)
+  const sharedStyles = getSharedStyles(theme);
 
   useEffect(() => {
     (async () => {
@@ -66,12 +70,35 @@ export default function Users() {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={sharedStyles.topBar}>
-        <MainButton text="Back" onPress={() => router.back()} />
-        <ThemedText style={{...typography.digitalParagraph, color: theme.accent}}>Friends</ThemedText>
-        <ThemedText>{'    '}</ThemedText>
-      </View>
-      <FlatList style={{flex: 1, paddingHorizontal: 10}} data={friends} keyExtractor={(item) => item.id!.toString()} showsVerticalScrollIndicator={false} renderItem={({item}) => <ThemedText>- {item.name}</ThemedText>} />
+      <TopBar
+        title="Friends"
+        leftButton={{
+          text: "Back",
+          onPress: () => router.back(),
+        }}
+      />
+      <FlatList
+        style={{flex: 1, paddingHorizontal: 10}}
+        contentContainerStyle={{
+          gap: 10,
+        }}
+        data={friends}
+        keyExtractor={(item) => item.id!.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => (
+          <SwipeableComponent actions={() => <FriendSwipeableActions />}>
+            <View
+              style={{
+                backgroundColor: theme.background,
+                paddingVertical: 10,
+              }}
+            >
+              <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{item.name}</ThemedText>
+              <ThemedText>Test</ThemedText>
+            </View>
+          </SwipeableComponent>
+        )}
+      />
       <AddButton onPress={() => setIsNewFriendSheetOpen(true)} text="New Friend" />
       <GeneralBottomSheet isOpen={isNewFriendSheetOpen} onDismiss={() => setIsNewFriendSheetOpen(false)} snapPoints={["35%"]}>
         <NewFriendBottomSheet onCancel={() => setIsNewFriendSheetOpen(false)} onConfirm={handleCreateFriend} newFriendName={newFriendName} handleNewFriendName={handleNewFriendName} error={error} />

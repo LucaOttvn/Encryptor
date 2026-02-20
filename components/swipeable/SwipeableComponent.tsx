@@ -1,10 +1,10 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 type SwipeableComponentProps = {
-  actions: any;
+  actions: () => React.JSX.Element;
   children: React.ReactNode;
 };
 

@@ -18,11 +18,11 @@ interface ThemeProviderProps {
 
 export const ThemeProvider = ({children}: ThemeProviderProps) => {
   const systemScheme = useColorScheme();
-  const [isDark, setIsDark] = useState(systemScheme === "dark");
+  const [isDark, setIsDark] = useState(false);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    setIsDark(systemScheme === "dark");
+    // setIsDark(systemScheme === "dark");
   }, [systemScheme]);
 
   const theme = isDark ? Colors.dark : Colors.light;

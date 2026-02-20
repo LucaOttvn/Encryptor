@@ -25,19 +25,20 @@ export function getSharedStyles(theme: ColorPalette) {
       bottom: 60,
       alignSelf: 'center',
     },
-    actions: {
+    swipeableActions: {
       flexDirection: "row",
       height: "100%",
     },
-    action: {
+    swipeableAction: {
       width: 96,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.accent
+      backgroundColor: theme.accent,
     },
     topBar: {
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: "center",
       paddingTop: 10,
       paddingBottom: 20,
       paddingHorizontal: 20,

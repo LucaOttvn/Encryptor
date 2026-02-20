@@ -3,6 +3,7 @@ import MainButton from "@/components/buttons/MainButton";
 import MessageComponent from "@/components/Message";
 import MessageInput from "@/components/MessageInput";
 import {ThemedText} from "@/components/themed-text";
+import TopBar from "@/components/TopBar";
 import {typography} from "@/src/constants/theme";
 import {useTheme} from "@/src/context/ThemeContext";
 import {MessageDisplay, User} from "@/src/models/models";
@@ -71,11 +72,17 @@ export default function ChatPage() {
       /> */}
 
       <SafeAreaView style={{flex: 1}}>
-        <View style={sharedStyles.topBar}>
-          <MainButton text="Back" onPress={() => router.back()}/>
-          <ThemedText style={{...typography.digitalParagraph, color: theme.accent}}>{chatName}</ThemedText>
-          <MainButton text="Settings" onPress={() => setIsBottomSheetOpen(true)} />
-        </View>
+        <TopBar
+          leftButton={{
+            text: "Back",
+            onPress: () => router.back(),
+          }}
+          title={chatName ?? ""}
+          righButton={{
+            text: "Settings",
+            onPress: () => setIsBottomSheetOpen(true),
+          }}
+        />
         <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={keyboardVerticalOffset}>
           <FlatList
             ref={listRef}

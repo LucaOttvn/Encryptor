@@ -14,8 +14,8 @@ import "../assets/fonts/draco.ttf";
 /**
  * TODO:
  * - Add friend
+ * - Delete friend
  * - Username instead of email name
- * - Block friend
  * - Edit chat name
  * - Notifications
  * - Local data caching
@@ -90,27 +90,8 @@ function MainWrapper() {
               title: "Home",
             }}
           />
-          <Stack.Screen
-            name="(protected)/settings"
-            options={{
-              headerShown: true,
-              title: "Settings",
-            }}
-          />
-          {/* <Stack.Screen
-            name="(protected)/chat/[id]"
-            options={{
-              headerShown: true,
-              headerRight: () => (
-                <Link href="/(protected)/users" asChild>
-                  <MainButton text="Users" />
-                </Link>
-              ),
-            }}
-          /> */}
-          <Stack.Screen
-            name="(protected)/friends"
-          />
+          <Stack.Screen name="(protected)/settings" />
+          <Stack.Screen name="(protected)/friends" />
         </Stack.Protected>
       </Stack>
     </>
