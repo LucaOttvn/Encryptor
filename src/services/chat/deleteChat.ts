@@ -7,6 +7,6 @@ export async function deleteChat(chatId: string) {
     try {
         await deleteDoc(doc(db, "chats", chatId));
     } catch (error) {
-        console.error(error)
+        throw error
     }
 }

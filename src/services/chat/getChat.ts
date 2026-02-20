@@ -19,7 +19,7 @@ export async function getChat(chatId: string): Promise<Chat> {
     
     return { id: snap.id, ...(data as object) } as Chat;
 
-  } catch (err: any) {
-    throw new Error(err.message);
+  } catch (error: any) {
+    throw error
   }
 }

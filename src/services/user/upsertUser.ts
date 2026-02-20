@@ -13,7 +13,7 @@ export async function upsertUser() {
 
   await setDoc(
     doc(db, "users", authUser.uid),
-    { name: authUser.displayName ?? "Unknown" },
+    { name: authUser.displayName ?? "Unknown", email: authUser.email },
     { merge: true }
   );
 }

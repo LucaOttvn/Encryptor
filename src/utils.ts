@@ -48,3 +48,15 @@ export function getSharedStyles(theme: ColorPalette) {
     },
   })
 }
+
+export function validateEmail(emailRaw: string): { ok: boolean, error?: string } {
+  const email = emailRaw.trim();
+
+  if (!email) return { ok: false, error: "Email is required" };
+  if (email.length > 254) return { ok: false, error: "Email is too long" };
+
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!re.test(email)) return { ok: false, error: "Enter a valid email address" };
+
+  return { ok: true };
+}

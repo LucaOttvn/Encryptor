@@ -3,6 +3,7 @@ import type { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 export type User = {
   id: string
   name: string
+  email: string
 }
 
 export type Chat = {
@@ -12,6 +13,7 @@ export type Chat = {
 }
 
 export type Friendship = {
+  id?: string
   members: string[]
 }
 

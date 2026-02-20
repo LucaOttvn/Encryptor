@@ -1,11 +1,16 @@
 import {ThemedText} from "@/components/themed-text";
 import {useTheme} from "@/src/context/ThemeContext";
+import { deleteFriendship } from "@/src/services/friendships/deleteFriendship";
 import {getSharedStyles} from "@/src/utils";
 import React from "react";
 import { Alert } from "react-native";
 import {RectButton} from "react-native-gesture-handler";
 
-export default function FriendSwipeableActions() {
+type FriendSwipeableActionsProps = {
+  friendshipId: string
+}
+
+export default function FriendSwipeableActions(props: FriendSwipeableActionsProps) {
   const {theme} = useTheme();
   const sharedStyles = getSharedStyles(theme);
 
@@ -19,7 +24,7 @@ export default function FriendSwipeableActions() {
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            console.log('Deleting friend')
+            deleteFriendship(props.friendshipId)
           },
         },
       ],

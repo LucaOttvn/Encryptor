@@ -1,16 +1,16 @@
-import { typography } from "@/src/constants/theme";
-import { useAuth } from "@/src/context/AuthContext";
-import { ColorPalette, useTheme } from "@/src/context/ThemeContext";
-import { Chat, User } from "@/src/models/models";
-import { createChat } from "@/src/services/chat/createChat";
-import { getFriendships } from "@/src/services/friendships/getFriendships";
-import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {typography} from "@/src/constants/theme";
+import {useAuth} from "@/src/context/AuthContext";
+import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
+import {Chat, Friendship} from "@/src/models/models";
+import {createChat} from "@/src/services/chat/createChat";
+import {getFriendships} from "@/src/services/friendships/getFriendships";
+import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
+import {useEffect, useState} from "react";
+import {FlatList, StyleSheet, View} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import MainButton from "../buttons/MainButton";
-import SelectUsersList from "../SelectUsersList";
-import { ThemedText } from "../themed-text";
+import SelectableFriendCard from "../cards/SelectableFriendCard";
+import {ThemedText} from "../themed-text";
 
 type NewChatBottomSheetProps = {
   onCancel: () => void;
@@ -22,12 +22,21 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
   const {user} = useAuth();
 
   const [chatName, setChatName] = useState<string>("");
-  const [friends, setFriends] = useState<User[]>([]);
+  const [friendships, setFriendships] = useState<Friendship[]>([]);
 
   const styles = createStyles(theme, chatName.length);
 
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
 
+  useEffect(() => {
+    (async () => {
+      if (!user) return;
+      const friendsResult: Friendship[] = await getFriendships(user.uid);
+      setFriendships(friendsResult);
+    })();
+  }, [user]);
+
+  // Add/remove the clicked friends cards
   function handleSelectedIds(id: string) {
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -40,19 +49,11 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
     });
   }
 
-  useEffect(() => {
-    (async () => {
-      if (!user) return;
-      const friendsResult: User[] = await getFriendships(user.uid);
-      setFriends(friendsResult);
-    })();
-  }, [user]);
-
   async function handleCreateChat() {
     // If no chat name has been inserted or no users have been selected do nothing
     if (chatName === "" || selectedIds.size === 0) return;
     props.onConfirm();
-    const users = [...Array.from(selectedIds), user!.uid]
+    const users = [...Array.from(selectedIds), user!.uid];
     const newChat: Chat = {
       name: chatName,
       members: users,
@@ -67,18 +68,28 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
         justifyContent: "space-between",
         gap: 30,
       }}
+      edges={['left', 'right', 'bottom']}
     >
       <View
         style={{
-          paddingBottom: 40,
+          paddingBottom: 30,
         }}
       >
         <BottomSheetTextInput placeholder="Chat name" style={{...typography.h1, ...styles.chatNameInput}} placeholderTextColor={theme.grey} onChangeText={setChatName} />
       </View>
 
-      <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members</ThemedText>
+      <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members: {selectedIds.size}</ThemedText>
 
-      <SelectUsersList data={friends} handleSelected={handleSelectedIds} selectedIds={selectedIds} />
+      <FlatList
+        style={{flex: 1, paddingHorizontal: 10}}
+        contentContainerStyle={{
+          gap: 10,
+        }}
+        data={friendships}
+        keyExtractor={(item) => item.id!.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <SelectableFriendCard friendship={item} handleSelected={handleSelectedIds} selectedIds={selectedIds} />}
+      />
 
       <View style={styles.footer}>
         <MainButton text="Cancel" onPress={props.onCancel} />

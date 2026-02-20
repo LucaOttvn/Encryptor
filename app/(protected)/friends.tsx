@@ -1,71 +1,44 @@
 import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewFriendBottomSheet from "@/components/bottomsheets/NewFriendBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
-import MainButton from "@/components/buttons/MainButton";
-import FriendSwipeableActions from "@/components/swipeable/actions/FriendSwipeableActions";
-import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
-import {ThemedText} from "@/components/themed-text";
+import SwipeableFriendCard from "@/components/cards/SwipeableFriendCard";
+
 import TopBar from "@/components/TopBar";
-import {typography} from "@/src/constants/theme";
 import {useAuth} from "@/src/context/AuthContext";
-import {useTheme} from "@/src/context/ThemeContext";
-import {Friendship, User} from "@/src/models/models";
-import {createFriendship} from "@/src/services/friendships/createFriendship";
-import {getFriendships} from "@/src/services/friendships/getFriendships";
-import {getUserByName} from "@/src/services/user/getUserByName";
-import {getSharedStyles} from "@/src/utils";
+import {Friendship} from "@/src/models/models";
+import {subscribeToFriendships} from "@/src/services/friendships/subscribeToFriendships";
 import {router} from "expo-router";
 import {useEffect, useState} from "react";
-import {FlatList, View} from "react-native";
-import {RectButton} from "react-native-gesture-handler";
+import {FlatList, Keyboard} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 
+/**
+ * List of the logged user's friends.
+ * @returns 
+ */
 export default function Users() {
   const {user} = useAuth();
-  const {theme} = useTheme();
 
-  const [friends, setFriends] = useState<User[]>([]);
+  const [friendships, setFriendships] = useState<Friendship[]>([]);
   const [isNewFriendSheetOpen, setIsNewFriendSheetOpen] = useState(false);
-  const [newFriendName, setNewFriendName] = useState("");
-  const [error, setError] = useState<string>();
+  const [newFriendEmail, setNewFriendEmail] = useState("");
 
-  const sharedStyles = getSharedStyles(theme);
-
+  // Start the subscription to the friendships collection to immediately show updates on change
   useEffect(() => {
-    (async () => {
-      if (!user) return;
-      const friendsResult: User[] = await getFriendships(user.uid);
-      setFriends(friendsResult);
-    })();
+    if (!user) return;
+    const unsub = subscribeToFriendships(user.uid, (updatedFriendships) => {
+      setFriendships(updatedFriendships);
+    });
+    return () => unsub();
   }, [user]);
 
-  async function handleCreateFriend() {
-    try {
-      if (!user) return;
-
-      const friend = await getUserByName(newFriendName);
-
-      if (!friend) throw Error("User not found");
-
-      const loggedUserFriends = await getFriendships(user.uid);
-
-      const isFriendAlready = loggedUserFriends.find((userFriend) => userFriend.id === friend.id);
-
-      if (isFriendAlready) throw Error("This user is already a friend");
-
-      const newFriendship: Friendship = {
-        members: [user?.uid, friend.id],
-      };
-
-      await createFriendship(newFriendship);
-    } catch (error) {
-      setError((error as Error).message);
-    }
+  function handleNewFriendEmail(input: string) {
+    setNewFriendEmail(input);
   }
 
-  function handleNewFriendName(input: string) {
-    setError(undefined);
-    setNewFriendName(input);
+  function closeNewChatSheet() {
+    Keyboard.dismiss();
+    setIsNewFriendSheetOpen(false);
   }
 
   return (
@@ -82,26 +55,15 @@ export default function Users() {
         contentContainerStyle={{
           gap: 10,
         }}
-        data={friends}
+        data={friendships}
         keyExtractor={(item) => item.id!.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({item}) => (
-          <SwipeableComponent actions={() => <FriendSwipeableActions />}>
-            <View
-              style={{
-                backgroundColor: theme.background,
-                paddingVertical: 10,
-              }}
-            >
-              <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{item.name}</ThemedText>
-              <ThemedText>Test</ThemedText>
-            </View>
-          </SwipeableComponent>
-        )}
+        renderItem={({item}) => <SwipeableFriendCard friendship={item} />}
       />
       <AddButton onPress={() => setIsNewFriendSheetOpen(true)} text="New Friend" />
-      <GeneralBottomSheet isOpen={isNewFriendSheetOpen} onDismiss={() => setIsNewFriendSheetOpen(false)} snapPoints={["35%"]}>
-        <NewFriendBottomSheet onCancel={() => setIsNewFriendSheetOpen(false)} onConfirm={handleCreateFriend} newFriendName={newFriendName} handleNewFriendName={handleNewFriendName} error={error} />
+        
+      <GeneralBottomSheet isOpen={isNewFriendSheetOpen} onDismiss={closeNewChatSheet} snapPoints={["25%"]}>
+        <NewFriendBottomSheet onCancel={closeNewChatSheet} onConfirm={closeNewChatSheet} newFriendEmail={newFriendEmail} handleNewFriendEmail={handleNewFriendEmail} />
       </GeneralBottomSheet>
     </SafeAreaView>
   );
