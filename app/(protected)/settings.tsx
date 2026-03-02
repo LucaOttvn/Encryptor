@@ -1,44 +1,42 @@
+import { GeneralBottomSheet } from "@/components/bottomsheets/GeneralBottomSheet";
+import SettingsBottomSheet from "@/components/bottomsheets/SettingsBottomSheet";
 import MainButton from "@/components/buttons/MainButton";
-import {ThemedText} from "@/components/themed-text";
+import { ThemedText } from "@/components/themed-text";
 import TopBar from "@/components/TopBar";
-import {typography} from "@/src/constants/theme";
-import {useAuth} from "@/src/context/AuthContext";
-import {useTheme} from "@/src/context/ThemeContext";
-import {getUser} from "@/src/services/user/getUser";
-import {router} from "expo-router";
-import {useEffect} from "react";
-import {Alert, TextInput, View} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import { typography } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { useTheme } from "@/src/context/ThemeContext";
+import { getUser } from "@/src/services/user/getUser";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { Keyboard, TextInput, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
   const {user} = useAuth();
   const {theme, isDark, toggleTheme} = useTheme();
   const {signOut} = useAuth();
+  const [isSettingsBotttomSheetOpen, setIsSettingsBotttomSheetOpen] = useState(false);
+  const [username, setUsername] = useState("Loading...");
 
   useEffect(() => {
     (async () => {
-      await getUser(user!.uid);
+      const userFromDB = await getUser(user!.uid);
+      setUsername(userFromDB.username);
     })();
   }, [user]);
+
+  function handleUsername(input: string) {
+    setUsername(input);
+  }
 
   function handleThemeChange() {
     toggleTheme();
   }
 
-  function updateUserDataModal() {
-    Alert.alert(
-      "Update username",
-      "This cannot be undone.",
-      [
-        {text: "Cancel", style: "cancel", onPress: () => {}},
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => {},
-        },
-      ],
-      {cancelable: true},
-    );
+  function closeSettingsSheet() {
+    Keyboard.dismiss();
+    setIsSettingsBotttomSheetOpen(false);
   }
 
   return (
@@ -66,11 +64,11 @@ export default function Settings() {
         }}
       >
         <View>
-          <ThemedText style={typography.h2}>Username</ThemedText>
-          <TextInput style={{...typography.digitalParagraph, color: theme.accent}}>Terem</TextInput>
+          <ThemedText>Username</ThemedText>
+          <MainButton text={username} onPress={() => setIsSettingsBotttomSheetOpen(true)} textStyle={{...typography.digitalParagraph, color: theme.accent}} />
         </View>
         <View>
-          <ThemedText style={typography.h2}>Email</ThemedText>
+          <ThemedText>Email</ThemedText>
           <TextInput style={{...typography.digitalParagraph, color: theme.accent}}>{user?.email}</TextInput>
         </View>
       </View>
@@ -94,6 +92,9 @@ export default function Settings() {
           onPress={signOut}
         />
       </View>
+      <GeneralBottomSheet isOpen={isSettingsBotttomSheetOpen} onDismiss={closeSettingsSheet} snapPoints={["25%"]}>
+        <SettingsBottomSheet handleUsername={handleUsername} username={username} onCancel={closeSettingsSheet} onConfirm={closeSettingsSheet} />
+      </GeneralBottomSheet>
     </SafeAreaView>
   );
 }
