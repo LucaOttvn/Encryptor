@@ -103,7 +103,7 @@ export default function Home() {
                 >
                   <View style={styles.chat}>
                     <ThemedText style={{...typography.digitalH1, color: theme.accent}}>{item.name.toUpperCase()}</ThemedText>
-                    <ThemedText style={{}}>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
+                    <ThemedText>{`${item.members.length} User${item.members.length === 1 ? "" : "s"}`}</ThemedText>
                   </View>
                 </Pressable>
               </Link>

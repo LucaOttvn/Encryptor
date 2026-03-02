@@ -80,14 +80,16 @@ export default function NewChatBottomSheet(props: NewChatBottomSheetProps) {
 
       <ThemedText style={{...typography.h2, marginHorizontal: "auto"}}>Select members: {selectedIds.size}</ThemedText>
 
-      <View
-        style={{
-          flex: 1,
-          margin: 'auto'
-        }}
-      >
-        <ThemedText style={{...typography.digitalH1, color: theme.grey}}>No friends</ThemedText>
-      </View>
+      {friendships.length === 0 && (
+        <View
+          style={{
+            flex: 1,
+            margin: "auto",
+          }}
+        >
+          <ThemedText style={{...typography.digitalH1, color: theme.grey}}>No friends</ThemedText>
+        </View>
+      )}
 
       <FlatList
         style={{flex: 1, paddingHorizontal: 10}}

@@ -59,8 +59,6 @@ export default function ChatPage() {
     });
   }, []);
 
-  const sharedStyles = getSharedStyles(theme);
-
   return (
     <>
       {/* <Stack.Screen

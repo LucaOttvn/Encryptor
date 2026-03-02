@@ -14,6 +14,7 @@ import "../assets/fonts/draco.ttf";
 /**
  * TODO:
  * - Notifications
+ * - Add validation check on new chat name (only letters and numbers, no icons or anything else)
  * - Username instead of email name
  * - Edit chat name
  * - Delete user
