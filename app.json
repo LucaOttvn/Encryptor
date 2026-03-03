@@ -1,5 +1,6 @@
 {
   "expo": {
+    "icon": "./assets/images/EncryptorIcon.png",
     "name": "Encryptor",
     "slug": "Encryptor",
     "version": "1.0.0",

@@ -1,6 +1,8 @@
 import type { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
-import { Platform, StyleSheet } from 'react-native'
+import * as Notifications from "expo-notifications";
+import { StyleSheet } from 'react-native';
 import { ColorPalette } from "./context/ThemeContext";
+import { updateUser } from "./services/user/updateUser";
 
 export function formatHHMM(ts?: FirebaseFirestoreTypes.Timestamp | null) {
   if (!ts) return "";
@@ -59,4 +61,41 @@ export function validateEmail(emailRaw: string): { ok: boolean, error?: string }
   if (!re.test(email)) return { ok: false, error: "Enter a valid email address" };
 
   return { ok: true };
+}
+
+/**
+ * Get the Expo notification token.
+ * This token is the “address” the backend needs to target the user's device through Expo’s push service.
+*/
+export async function getExpoPushToken() {
+  const token = await Notifications.getExpoPushTokenAsync();
+  return token.data;
+}
+
+/**
+ * Check whether the user gave the permission for notifications. 
+ * If they didn't, show the popup.
+ * After the confirmation, update the user with the expoPushToken field.
+ */
+export async function handleNotificationToken(uid: string) {
+  const current = await Notifications.getPermissionsAsync();
+  let granted = current.granted;
+
+  if (!granted) {
+    const requested = await Notifications.requestPermissionsAsync({
+      ios: { allowAlert: true, allowBadge: true, allowSound: true },
+    });
+    granted = requested.granted;
+  }
+
+  if (!granted) {
+    return { ok: false as const, reason: "no-permission" as const };
+  }
+
+  const tokenRes = await Notifications.getExpoPushTokenAsync();
+  const token = tokenRes.data;
+
+  await updateUser(uid, { expoPushToken: token });
+
+  return { ok: true as const, token };
 }

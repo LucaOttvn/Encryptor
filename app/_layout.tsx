@@ -13,11 +13,12 @@ import "../assets/fonts/draco.ttf";
 
 /**
  * TODO:
- * - Notifications
  * - Add validation check on new chat name (only letters and numbers, no icons or anything else)
  * - Username instead of email name
  * - Edit chat name
+ * - When deleting a chat, delete all the relative messages too
  * - Delete user
+ * - Show the notifications permission status in the notifications page
  * - Local data caching
  * - Friendship status (pending/accepted/blocked)
  */

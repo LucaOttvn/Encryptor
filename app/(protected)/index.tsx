@@ -1,7 +1,6 @@
 import {GeneralBottomSheet} from "@/components/bottomsheets/GeneralBottomSheet";
 import NewChatBottomSheet from "@/components/bottomsheets/NewChatBottomSheet";
 import AddButton from "@/components/buttons/AddButton";
-import MainButton from "@/components/buttons/MainButton";
 import UserSwipeableActions from "@/components/swipeable/actions/ChatSwipeableActions";
 import SwipeableComponent from "@/components/swipeable/SwipeableComponent";
 import {ThemedText} from "@/components/themed-text";
@@ -11,12 +10,23 @@ import {useAuth} from "@/src/context/AuthContext";
 import {ColorPalette, useTheme} from "@/src/context/ThemeContext";
 import {Chat} from "@/src/models/models";
 import {subscribeToChats} from "@/src/services/chat/subscribeToChats";
-
+import {handleNotificationToken} from "@/src/utils";
 import * as Haptics from "expo-haptics";
 import {Link, router} from "expo-router";
 import {useEffect, useState} from "react";
-import {FlatList, Keyboard, Pressable, StyleSheet, View, Text} from "react-native";
+import {FlatList, Keyboard, Pressable, StyleSheet, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function Home() {
   const {theme} = useTheme();
@@ -28,6 +38,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!user) return;
+    handleNotificationToken(user.uid);
     const unsub = subscribeToChats(
       user.uid,
       (updatedChats) => {
@@ -61,9 +72,11 @@ export default function Home() {
       />
 
       {chats.length === 0 && (
-        <View style={{
-          height: '100%',
-        }}>
+        <View
+          style={{
+            height: "100%",
+          }}
+        >
           <ThemedText
             style={{
               ...typography.digitalH1,
